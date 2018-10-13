@@ -7,14 +7,25 @@ import pandas as pd
 import DB
 import ML
 
+import configparser as confp
 
 # ------------------------------------------------ INIT ------------------------------------------------
+#------------------- read basic info, db_url and db_name
+config = confp.ConfigParser()
+config.read(filenames='config.ini')
+db_url = config['DEFAULT']['db_url']
+db_name = None
+if 'db_name' in config['DEFAULT']:
+    db_name = config['DEFAULT']['db_name']
+#******************* read basic info, db_url and db_name
+
+
 # -------------------Service class
 class Service:
     def __init__(self):
         self.admin_user_id = 671
 
-        self.mdb = DB.MongoDB('mongodb://127.0.0.1:27017', db_name='local')
+        self.mdb = DB.MongoDB(db_url, db_name=db_name)
         self.ml = ML.MlKnn()
         self.rating_df = self.__get_rating_df_from_db__()
         self.rating_df_ml = self.rating_df.pivot(index='userId', columns='movieId', values='rating').fillna(0.0)
@@ -39,8 +50,22 @@ class Service:
             correlation, kneighbs = self.ml.predit([x])
             result = self.rating_df_ml.loc[kneighbs].mul(correlation, axis=0).sum(axis=0) \
                 .sort_values(ascending=False).head(10)
-            movie_list = result.index.tolist()
-            return movie_list
+            id_list = result.index.tolist()
+            m_list = list()
+            # print(self.mdb.find_many_movie_collection({'movieId': id_list}))
+            for r in self.mdb.find_many_movie_collection({'movieId': {'$in': id_list}}):
+                m = dict()
+                m['movieId'] = r['movieId']
+                m['title'] = r['title']
+                m['vote_average'] = r['vote_average']
+                m['popularity'] = r['popularity']
+                m['overview'] = r['overview']
+                if r['runtime'] < 10:
+                    m['runtime'] = '-'
+                else:
+                    m['runtime'] = r['runtime']
+                m_list.append(m)
+            return m_list
         else:
             return None
 
