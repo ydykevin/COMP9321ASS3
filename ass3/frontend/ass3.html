@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
     <link rel="stylesheet" type="text/css" href="https://getbootstrap.com/docs/4.1/examples/dashboard/dashboard.css">
     <title>MOVIE</title>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
@@ -20,7 +21,7 @@
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#lr">
-            LOGIN|REGISTER          
+            LOGIN          
           </button>
         </li>
       </ul>
@@ -31,7 +32,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">LOGIN/REGISTER</h5>
+            <h5 class="modal-title" id="exampleModalLongTitle">LOGIN</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -40,19 +41,17 @@
             <form>
               <div class="form-group">
                 <label>USER ID</label>
-                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="USER ID">
+                <input type="text" class="form-control" id="username" placeholder="USER ID" type="text">
               </div>
               <div class="form-group">
                 <label>PASSWORD</label>
-                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="PASSWORD">
+                <input class="form-control" id="password" type="password" placeholder="PASSWORD">
               </div>
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary">login</button>
-            <button type="button" class="btn btn-primary">register</button>
-
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="loginBtn">login</button>
+            <button type="button" id='loginclose' class="btn btn-secondary" data-dismiss="modal">Close</button>
 
           </div>
         </div>
@@ -124,36 +123,13 @@
               <thead>
                 <tr>
                   <th>MOVIE NAME</th>
-                  <th>info1</th>
-                  <th>info2</th>
-                  <th>info3</th>
+                  <th>AVERAGE VOTE</th>
+                  <th>POPULARITY</th>
+                  <th>RUNTIME</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td><a href="javascript:void(0);" data-toggle="modal" data-target="#movieInfo">Lorem</a></td>
-                  <td>dafsa</td>
-                  <td>dolor</td>
-                  <td>sit</td>
-                </tr>
-                <tr>
-                  <td><a href="javascript:void(0);" data-toggle="modal" data-target="#movieInfo">amet</a></td>
-                  <td>consectetur</td>
-                  <td>adipiscing</td>
-                  <td>elit</td>
-                </tr>
-                <tr>
-                  <td><a href="javascript:void(0);" data-toggle="modal" data-target="#movieInfo">Integer</a></td>
-                  <td>nec</td>
-                  <td>odio</td>
-                  <td>Praesent</td>
-                </tr>
-                <tr>
-                  <td><a href="javascript:void(0);" data-toggle="modal" data-target="#movieInfo">libero</a></td>
-                  <td>Sed</td>
-                  <td>cursus</td>
-                  <td>ante</td>
-                </tr>
+              <tbody id='recmTable'>
+                
               </tbody>
             </table>
           </div>
@@ -289,19 +265,101 @@
     <!-- Graphs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <script>
-      function hiddenAll() {
-
-      }
+      var token = -1;
       $(document).ready(function() {
+        var prefix_url = "http://127.0.0.1:5000";
+
+        function login(){
+          var u = $("#username").val();
+          var p = $("#password").val();
+          var d = JSON.stringify({"username":u,"password":p});
+          $.post({
+            url:prefix_url+"/users/login",
+            data:d,
+            dataType:'json',
+            // beforeSend: function(request) {
+            //   // request.setRequestHeader("Host", "127.0.0.1:5000");
+            //   // request.setRequestHeader("Origin", "http://127.0.0.1:5000");
+            //   // request.setRequestHeader("Referer", "http://127.0.0.1:5000/");
+            // },
+            success:function(data){ // http code 200
+              token = data.token;
+              alert('success');
+              $('#loginclose').click();
+            },
+            contentType: "application/json",
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+              switch(XMLHttpRequest.status){
+                case 400:
+                  alert('username or password is incorrect.')
+                  break;
+                default:
+                  break;
+              }
+            }
+          });
+
+        } 
+          // alert($("#username").val()+","+$("#password").val());
+        //   $.ajax({
+        //       url: prefix_url+"/users/login",
+        //       method: 'POST',
+        //       dataType: 'json',
+        //       success: function(data){
+        //         alert(data)
+        //       },
+        //       statusCode: {
+        //         401: function(data) {
+        //           alert(data);
+        //         }
+        //       }
+        //   });
+        // };
+
+
         function hiddenAll() {
           $("#public").css('display','none');
           $("#private").css('display','none');
           $("#search").css('display','none');
-        }
+        };
 
         $("#pubbnt").click(function(){hiddenAll();$("#public").css('display','block');});
-        $("#pribnt").click(function(){hiddenAll();$("#private").css('display','block');});
+        $("#pribnt").click(function(){
+          if(-1 == token) {
+            alert('please login')
+          } else {
+            hiddenAll();
+            $("#private").css('display','block');
+            // load recommendation
+            $('#recmTable').html('');
+
+            $.ajax({
+                url: prefix_url+"/movies/recommendation",
+                method: 'GET',
+                dataType: 'json',
+                success: function(data){
+                  for(var i=0;i<data.movies.length;i++) {
+                    var m = data.movies[i];
+                    var tr = $("<tr></tr>")
+                    tr.append("<td>"+m.title+"</td>");
+                    tr.append("<td>"+String(m.vote_average)+"</td>");
+                    tr.append("<td>"+String(m.popularity)+"</td>");
+                    tr.append("<td>"+String(m.runtime)+"</td>");
+                    $('#recmTable').append(tr)
+
+                  }
+                },
+                headers: { 'token': token },
+                statusCode: {
+                  400: function(data) {
+                    alert(data);
+                  }
+                }
+            });
+          }
+        });
         $("#seabnt").click(function(){hiddenAll();$("#search").css('display','block');});
+        $("#loginBtn").click(function(){login();});
 
       });
 

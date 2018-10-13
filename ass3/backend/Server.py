@@ -1,5 +1,5 @@
-from flask import Flask, request
-from flask_restplus import Resource, Api, fields, reqparse, abort
+from flask import Flask, request, jsonify
+from flask_restplus import Resource, Api, fields, reqparse, abort, cors
 from itsdangerous import SignatureExpired, JSONWebSignatureSerializer, BadSignature
 from time import time
 from functools import wraps
@@ -10,14 +10,16 @@ import ML
 import configparser as confp
 
 # ------------------------------------------------ INIT ------------------------------------------------
-#------------------- read basic info, db_url and db_name
+# ------------------- read basic info, db_url and db_name
 config = confp.ConfigParser()
 config.read(filenames='config.ini')
 db_url = config['DEFAULT']['db_url']
 db_name = None
 if 'db_name' in config['DEFAULT']:
     db_name = config['DEFAULT']['db_name']
-#******************* read basic info, db_url and db_name
+
+
+# ******************* read basic info, db_url and db_name
 
 
 # -------------------Service class
@@ -57,13 +59,10 @@ class Service:
                 m = dict()
                 m['movieId'] = r['movieId']
                 m['title'] = r['title']
-                m['vote_average'] = r['vote_average']
-                m['popularity'] = r['popularity']
+                m['vote_average'] = '-' if r['vote_average'] == 0 else r['vote_average']
+                m['popularity'] = '-' if r['popularity']==0 else r['popularity']
                 m['overview'] = r['overview']
-                if r['runtime'] < 10:
-                    m['runtime'] = '-'
-                else:
-                    m['runtime'] = r['runtime']
+                m['runtime'] = '-' if r['runtime'] <10 else r['runtime']
                 m_list.append(m)
             return m_list
         else:
@@ -105,7 +104,6 @@ def requires_auth(f):
         token = request.headers.get('token')
         if not token:
             abort(401, 'token is missing')
-
         try:
             if not auth.validate_token(token):
                 abort(401, 'token is incorrect or expired')
@@ -170,8 +168,13 @@ class MovieHighRating(Resource):
 @api.route('/movies/recommendation')
 class MovieRecommendation(Resource):
     @requires_auth
+    @cors.crossdomain(origin='*', headers=['content-type','token'])
     def get(self):
-        return {'movies': service.get_recommendation()}, 200
+        return jsonify(movies=service.get_recommendation()), 200
+
+    @cors.crossdomain(origin='*', headers=['content-type','token'])
+    def options(self):
+        return {}, 200
 
 
 @api.route('/users/rating')
@@ -192,13 +195,21 @@ class UserRating(Resource):
 @api.route('/users/login')
 @api.expect(login_model, validate=True)
 class UserLogin(Resource):
+    @cors.crossdomain(origin='*', headers=['content-type'])
     def post(self):
         global auth
         user = request.json
-        if user['username'] == 'admin' and user['password'] == 'admin':
-            return {'token': auth.generate_token('admin', 'admin')}, 200
+
+        if not user:
+            return jsonify(message='incorrect username or password'), 400
+        if 'admin' == user['username'] and 'admin' == user['password']:
+            return jsonify(token=auth.generate_token('admin', 'admin')), 200
         else:
-            return {'message': 'incorrect username or password'}, 400
+            return jsonify(message='incorrect username or password'), 400
+
+    @cors.crossdomain(origin='*', headers=['content-type'])
+    def options(self):
+        return {}, 200
 
 
 # ************************************************ LOGIN ************************************************
