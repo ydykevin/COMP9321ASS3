@@ -3,7 +3,7 @@ import pandas as pd
 
 
 class MlKnn(object):
-    def __init__(self, nb_neighbors):
+    def __init__(self, nb_neighbors=20):
         # self.df = pd.read_csv(file)
         # self.df = self.df.pivot(index='userId', columns='movieId', values='rating').fillna(0.0)
 
@@ -16,12 +16,11 @@ class MlKnn(object):
 
     def predit(self, x):
         dist, kneighbs = self.knn.kneighbors(x)
-        dist = dist[0,1:]
-        kneighbs = kneighbs[0,1:] + 1
+        dist = dist[0, 1:]
+        kneighbs = kneighbs[0, 1:] + 1
         correlation = 1 - dist
         # return self.df.loc[kneighbs].mul(correlation, axis=0).sum(axis=0).sort_values(ascending=False)
-        return correlation,kneighbs
-
+        return correlation, kneighbs
 
 # ml = MlKnn(5)
 #
