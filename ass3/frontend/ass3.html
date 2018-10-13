@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="https://getbootstrap.com/docs/4.1/examples/dashboard/dashboard.css">
+    <title>MOVIE</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+  </head>
+  <body>
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Movie Recommendation</a>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#lr">
+            LOGIN|REGISTER          
+          </button>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Modal -->
+    <div class="modal fade" id="lr" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">LOGIN/REGISTER</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label>USER ID</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="USER ID">
+              </div>
+              <div class="form-group">
+                <label>PASSWORD</label>
+                <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="PASSWORD">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary">login</button>
+            <button type="button" class="btn btn-primary">register</button>
+
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+
+
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a id='pubbnt' class="nav-link active" href="javascript:void(0);">
+                  <span  data-feather="home"></span>
+                  PUBLIC <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a id='pribnt' class="nav-link active" href="javascript:void(0);">
+                  <span data-feather="home"></span>
+                  PRIVATE <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a id='seabnt' class="nav-link active" href="javascript:void(0);">
+                  <span data-feather="home"></span>
+                  SEARCH <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              
+            </ul>        
+          </div>
+        </nav>
+
+        <main id='public' style="display: none" role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">TOP</h1>              
+          </div>
+          <canvas class="my-4 w-100" id="topChart" width="900" height="380"></canvas>
+          
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">HIGH RATING</h1>              
+          </div>
+          <canvas class="my-4 w-100" id="hrChart" width="900" height="380"></canvas>
+
+          </div>
+        </main>
+
+        <main id='private' style="display: none" role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">PRIVATE</h1>   
+
+          </div>
+          <h2>Movie Recommendation</h2>
+          <form class="form-inline mt-2 mt-md-0 mb-2">
+              <label>CATEGORY:</label>
+              <select class="form-control">
+                <option value="all">All</option>
+                <option value="c1">Action</option>
+                <option value="c2">Young</option>
+                <option value="c3">Ghost</option>
+                <option value="c4">Crime</option>
+              </select>
+          </form>
+          <div class="table-responsive">
+            <table class="table table-striped table-sm">
+              <thead>
+                <tr>
+                  <th>MOVIE NAME</th>
+                  <th>info1</th>
+                  <th>info2</th>
+                  <th>info3</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><a href="javascript:void(0);" data-toggle="modal" data-target="#movieInfo">Lorem</a></td>
+                  <td>dafsa</td>
+                  <td>dolor</td>
+                  <td>sit</td>
+                </tr>
+                <tr>
+                  <td><a href="javascript:void(0);" data-toggle="modal" data-target="#movieInfo">amet</a></td>
+                  <td>consectetur</td>
+                  <td>adipiscing</td>
+                  <td>elit</td>
+                </tr>
+                <tr>
+                  <td><a href="javascript:void(0);" data-toggle="modal" data-target="#movieInfo">Integer</a></td>
+                  <td>nec</td>
+                  <td>odio</td>
+                  <td>Praesent</td>
+                </tr>
+                <tr>
+                  <td><a href="javascript:void(0);" data-toggle="modal" data-target="#movieInfo">libero</a></td>
+                  <td>Sed</td>
+                  <td>cursus</td>
+                  <td>ante</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </main>
+
+        <main id='search' style="display: none" role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">SEARCH</h1>          
+            <form class="form-inline mt-2 mt-md-0">
+              <label>CATEGORY:</label>
+              <select class="form-control">
+                <option value="all">All</option>
+                <option value="c1">Action</option>
+                <option value="c2">Young</option>
+                <option value="c3">Ghost</option>
+                <option value="c4">Crime</option>
+              </select>
+              &nbsp;
+              <input class="form-control mr-sm-2" placeholder="movie name" aria-label="Search" type="text">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="button">search</button>
+            </form>    
+          </div>
+          <div class="table-responsive">
+            <table class="table table-striped table-sm">
+              <thead>
+                <tr>
+                  <th>MOVIE NAME</th>
+                  <th>info1</th>
+                  <th>info2</th>
+                  <th>info3</th>
+                  <th>your rate</th>
+                  <th>operation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><a href="javascript:void(0);" data-toggle="modal" data-target="#movieInfo">Lorem</a></td>
+                  <td>dafsa</td>
+                  <td>dolor</td>
+                  <td>sit</td>
+                  <td>-</td>
+                  <td><button type="button" class="btn btn-outline-primary btn-sm">rate</button></td>
+                </tr>
+                <tr>
+                  <td><a href="javascript:void(0);" data-toggle="modal" data-target="#movieInfo">amet</a></td>
+                  <td>consectetur</td>
+                  <td>adipiscing</td>
+                  <td>elit</td>
+                  <td>-</td>
+                  <td><button type="button" class="btn btn-outline-primary btn-sm">rate</button></td>
+                </tr>
+                <tr>
+                  <td><a href="javascript:void(0);" data-toggle="modal" data-target="#movieInfo">Integer</a></td>
+                  <td>nec</td>
+                  <td>odio</td>
+                  <td>Praesent</td>
+                  <td>3</td>                  
+                  <td><button type="button" class="btn btn-outline-danger btn-sm ">remove rate</button></td>
+                </tr>
+                <tr>
+                  <td><a href="javascript:void(0);" data-toggle="modal" data-target="#movieInfo">libero</a></td>
+                  <td>Sed</td>
+                  <td>cursus</td>
+                  <td>ante</td>
+                  <td>-</td>
+                  <td><button type="button" class="btn btn-outline-primary btn-sm">rate</button></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#">Next</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="movieInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Movie information</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <h5>some info ....</h5>
+            <h5>Description:</h5>
+            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+
+            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+
+            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
+
+            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+
+            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+
+            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
+
+            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+      feather.replace()
+    </script>
+
+    <!-- Graphs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script>
+      function hiddenAll() {
+
+      }
+      $(document).ready(function() {
+        function hiddenAll() {
+          $("#public").css('display','none');
+          $("#private").css('display','none');
+          $("#search").css('display','none');
+        }
+
+        $("#pubbnt").click(function(){hiddenAll();$("#public").css('display','block');});
+        $("#pribnt").click(function(){hiddenAll();$("#private").css('display','block');});
+        $("#seabnt").click(function(){hiddenAll();$("#search").css('display','block');});
+
+      });
+
+      
+
+      var topChart = new Chart(document.getElementById("topChart"), {
+        type: 'horizontalBar',
+        data: {
+          labels: ["Movie1", "Movie2", "Movie3", "Movie4", "Movie5", "Movie6", "Movie7", "Movie8", "Movie9", "Movie10"],
+          datasets: [{
+            data: [15339, 21345, 18483, 24003, 23489, 24092, 12034,17024,1234,1434],
+            lineTension: 0,
+            // backgroundColor: 'transparent',
+            // borderColor: '#007bff',
+            borderWidth: 3,
+            // pointBackgroundColor: '#007bff'
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          },
+          legend: {
+            display: false,
+          }
+        }
+      });
+
+      var hrChart = new Chart(document.getElementById("hrChart"), {
+        type: 'horizontalBar',
+        data: {
+          labels: ["Movie1", "Movie2", "Movie3", "Movie4", "Movie5", "Movie6", "Movie7", "Movie8", "Movie9", "Movie10"],
+          datasets: [{
+            data: [15339, 21345, 18483, 24003, 23489, 24092, 12034,17024,1234,1434],
+            lineTension: 0,
+            // backgroundColor: 'transparent',
+            // borderColor: '#007bff',
+            borderWidth: 3,
+            // pointBackgroundColor: '#007bff'
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          },
+          legend: {
+            display: false,
+          }
+        }
+      });
+
+      
+    </script>
+  </body>
+</html>
