@@ -19,6 +19,9 @@ class MongoDB:
     def __getMovieCollection__(self):
         return self.getCollection('movies')
 
+    def __getGenresCollection__(self):
+        return self.getCollection('genres')
+
     def insert_one_movie_collection(self, data):
         return self.__getMovieCollection__().insert_one(data)
 
@@ -42,4 +45,7 @@ class MongoDB:
 
     def find_many_rating_collection(self, q=None, arg=None):
         return self.__getRatingCollection__().find(q,arg);
+
+    def insert_genres(self, data):
+        return self.__getGenresCollection__().insert_one(data)
 

@@ -120,16 +120,27 @@ def extrace_category(df_movie):
                 genresList.append(genres[i])
             i = i + 1
 
-    genresList.sort
+    genresList.sort()
+    i = 0
+    #data = list()
 
-    print(genresList)
-    print(len(genresList))
+    d = dict()
+    d['genres'] = genresList
+    #data.append(d)
+
+    print(d)
+    print(len(d))
+
+    mdb.insert_genres(d)
+
+
+
 
 # local
 # mdb = DB.MongoDB('mongodb://127.0.0.1:27017', db_name='local')
 
 # online
-mdb = DB.MongoDB()
+mdb = DB.MongoDB('mongodb://comp9321ass3:comp9321ass3@ds131323.mlab.com:31323/comp9321ass3')
 
 
 #insert_rating()
