@@ -1,6 +1,6 @@
 import DB
 import pandas as pd
-
+import re
 
 def get_movieIds():
     global df_rating
@@ -102,17 +102,48 @@ def insert_movie_info():
     # print(len(movie_info_list))
     print('finish')
 
-
 def extrace_category(df_movie):
-    df_movie = df_movie[['id', 'title', 'vote_average', 'genres','popularity', 'overview', 'runtime']].set_index('id').loc[get_movieIds()]
+    df = df_movie[['genres']]
+    # df_movie.join(df_movie['genres'].apply(json.loads).apply(pd.Series))
+    # df_moive = pd.read_csv(df_movie, converters = {'genres': CustomParser}, header = 0)
+    # df_moive[sorted(df_movie['genres'][0].keys())] = df_movie['genres'].apply(pd.Series)
+
+    count = 0
+    genresList = []
+    for row in df.itertuples():
+        if row == []:
+            continue
+        genres = re.findall(r"name\': \'(.+?)\'}", row.genres)
+        i = 0
+        while (i < len(genres)):
+            if genresList.count(genres[i]) == 0:
+                genresList.append(genres[i])
+            i = i + 1
+
+    genresList.sort()
+    i = 0
+    #data = list()
+
+    d = dict()
+    d['genres'] = genresList
+    #data.append(d)
+
+    print(d)
+    print(len(d))
+
+    mdb.insert_genres(d)
+
+
 
 
 # local
 # mdb = DB.MongoDB('mongodb://127.0.0.1:27017', db_name='local')
 
 # online
-mdb = DB.MongoDB()
+mdb = DB.MongoDB('mongodb://comp9321ass3:comp9321ass3@ds131323.mlab.com:31323/comp9321ass3')
 
 
-insert_rating()
-insert_movie_info()
+#insert_rating()
+#insert_movie_info()
+df_movie = pd.read_csv('movies_metadata.csv', low_memory=False)
+extrace_category(df_movie)
