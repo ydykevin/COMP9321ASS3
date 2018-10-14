@@ -108,16 +108,6 @@
 
           </div>
           <h2>Movie Recommendation</h2>
-          <form class="form-inline mt-2 mt-md-0 mb-2">
-              <label>CATEGORY:</label>
-              <select class="form-control">
-                <option value="all">All</option>
-                <option value="c1">Action</option>
-                <option value="c2">Young</option>
-                <option value="c3">Ghost</option>
-                <option value="c4">Crime</option>
-              </select>
-          </form>
           <div class="table-responsive">
             <table class="table table-striped table-sm">
               <thead>
@@ -289,13 +279,7 @@
             },
             contentType: "application/json",
             error:function(XMLHttpRequest, textStatus, errorThrown){
-              switch(XMLHttpRequest.status){
-                case 400:
-                  alert('username or password is incorrect.')
-                  break;
-                default:
-                  break;
-              }
+              alert('username or password is incorrect.');     
             }
           });
 
@@ -350,10 +334,8 @@
                   }
                 },
                 headers: { 'token': token },
-                statusCode: {
-                  400: function(data) {
-                    alert(data);
-                  }
+                error:function(XMLHttpRequest, textStatus, errorThrown){
+                  alert('invalid token, please login again');     
                 }
             });
           }
