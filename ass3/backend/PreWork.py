@@ -3,7 +3,7 @@ import pandas as pd
 import re
 
 def get_movieIds():
-    global df_rating
+    df_rating = pd.read_csv('ratings_small.csv', low_memory=False)
     movieIds = df_rating.pivot(index='userId', columns='movieId', values='rating').fillna(0.0).columns
     # print(movieIds.values)
     return [str(c) for c in movieIds.values]
