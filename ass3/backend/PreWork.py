@@ -1,6 +1,7 @@
 import DB
 import pandas as pd
 import re
+import csv
 
 
 def get_movieIds():
@@ -104,35 +105,58 @@ def insert_movie_info():
     print('finish')
 
 def extrace_category(df_movie):
-    df = df_movie[['genres']]
+    df_movie = df_movie[['id','genres']].set_index('id').loc[get_movieIds()]
     # df_movie.join(df_movie['genres'].apply(json.loads).apply(pd.Series))
     # df_moive = pd.read_csv(df_movie, converters = {'genres': CustomParser}, header = 0)
     # df_moive[sorted(df_movie['genres'][0].keys())] = df_movie['genres'].apply(pd.Series)
 
+    df_movie['genres'] = df_movie['genres'].astype(str)
+
     count = 0
     genresList = []
-    for row in df.itertuples():
-        if row == []:
+    for row in df_movie.itertuples():
+        if row.genres == []:
             continue
-        genres = re.findall(r"name\': \'(.+?)\'}", row.genres)
+        genres_reg = re.findall(r"name\': \'(.+?)\'}", row.genres)
+        id_reg = re.findall(r"id\': (.+?),", row.genres)
         i = 0
-        while (i < len(genres)):
-            if genresList.count(genres[i]) == 0:
-                genresList.append(genres[i])
+        while (i < len(genres_reg)):
+            if genresList.count([genres_reg[i],id_reg[i]]) == 0:
+                genresList.append([genres_reg[i],id_reg[i]])
             i = i + 1
 
     genresList.sort()
+    print(genresList)
+
     i = 0
-    #data = list()
+    while (i<len(genresList)):
+        movieIdList = []
 
-    d = dict()
-    d['genres'] = genresList
-    #data.append(d)
+        for row in df_movie.itertuples():
+            genres = genresList[i][0]
+            reg = re.findall(genres,row.genres)
+            if(len(reg)>0):
+                movieIdList.append(int(row.Index))
+                print(genresList[i][0])
+                print(row.Index)
 
-    print(d)
-    print(len(d))
+        if(len(movieIdList)>0):
+            d = dict()
+            d['id'] = int(genresList[i][1])
+            d['genres'] = genres
+            d['movies'] = movieIdList
+            print(d)
+            mdb.insert_genres(d)
 
-    mdb.insert_genres(d)
+        i = i + 1
+
+
+    #d = dict()
+    #d['genres'] = genresList
+
+    #print(d)
+
+    #mdb.insert_genres(d)
 
 
 
@@ -142,10 +166,11 @@ def extrace_category(df_movie):
 # mdb = DB.MongoDB('mongodb://127.0.0.1:27017', db_name='local')
 
 # online
-mdb = DB.MongoDB('mongodb://9321ass3:9321ass3@ds129344.mlab.com:29344/comp9321ass3')
+# Dayi Yang database
+mdb = DB.MongoDB('mongodb://comp9321ass3:comp9321ass3@ds131323.mlab.com:31323/comp9321ass3')
 
 
-# insert_rating()
-# insert_movie_info()
+#insert_rating()
+#insert_movie_info()
 df_movie = pd.read_csv('movies_metadata.csv', low_memory=False)
 extrace_category(df_movie)
