@@ -2,6 +2,7 @@ import DB
 import pandas as pd
 import re
 
+
 def get_movieIds():
     df_rating = pd.read_csv('ratings_small.csv', low_memory=False)
     movieIds = df_rating.pivot(index='userId', columns='movieId', values='rating').fillna(0.0).columns
@@ -136,14 +137,15 @@ def extrace_category(df_movie):
 
 
 
+
 # local
 # mdb = DB.MongoDB('mongodb://127.0.0.1:27017', db_name='local')
 
 # online
-mdb = DB.MongoDB('mongodb://comp9321ass3:comp9321ass3@ds131323.mlab.com:31323/comp9321ass3')
+mdb = DB.MongoDB('mongodb://9321ass3:9321ass3@ds129344.mlab.com:29344/comp9321ass3')
 
 
-#insert_rating()
-#insert_movie_info()
+# insert_rating()
+# insert_movie_info()
 df_movie = pd.read_csv('movies_metadata.csv', low_memory=False)
 extrace_category(df_movie)
