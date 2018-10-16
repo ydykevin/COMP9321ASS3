@@ -1,7 +1,6 @@
 import DB
 import pandas as pd
 import re
-import csv
 
 
 def get_movieIds():
@@ -151,12 +150,56 @@ def extrace_category(df_movie):
         i = i + 1
 
 
-    #d = dict()
-    #d['genres'] = genresList
+def insert_all_movie_info():
+    df_movie = pd.read_csv('movies_metadata.csv', low_memory=False)
 
-    #print(d)
+    df_movie = df_movie[['id', 'title', 'vote_average', 'popularity', 'overview', 'runtime', 'genres']].set_index('id').loc[
+        get_movieIds()]
 
-    #mdb.insert_genres(d)
+    df_movie['title'] = df_movie['title'].fillna('').astype(str)
+    df_movie['overview'] = df_movie['overview'].fillna('').astype(str)
+    df_movie['genres'] = df_movie['genres'].astype(str)
+
+    df_movie['vote_average'] = df_movie['vote_average'].fillna(0.0).astype(float)
+    df_movie['popularity'] = df_movie['popularity'].fillna(0.0).astype(float)
+    df_movie['runtime'] = df_movie['runtime'].fillna(0.0).astype(float)
+
+    movie_info_list = list()
+    count = 0;
+    for row in df_movie.itertuples():
+        if row.Index == '4912' and count >= 1:
+            continue
+        m_d = dict()
+        m_d['movieId'] = int(row.Index)
+        m_d['title'] = str(row.title)
+        if row.title is '':
+            m_d['title'] = 'movie' + row.Index
+        if row.genres=='nan':
+            m_d['genres'] = ''
+        else:
+            genres_reg = re.findall(r"name\': \'(.+?)\'}", row.genres)
+            i = 0
+            genresString = ''
+            while (i<len(genres_reg)):
+                genresString += genres_reg[i]
+                if i+1<len(genres_reg):
+                    genresString += ' '
+                i = i + 1
+            m_d['genres'] = genresString
+        m_d['vote_average'] = row.vote_average
+        m_d['popularity'] = row.popularity
+        m_d['overview'] = str(row.overview)
+        if row.overview is '':
+            m_d['overview'] = '...'
+        m_d['runtime'] = row.runtime
+        movie_info_list.append(m_d)
+        if row.Index == '4912':
+            count += 1
+    mdb.insert_many_all_movie_collection(movie_info_list)
+    # print(len(movie_info_list))
+    print('finish')
+
+
 
 
 
@@ -172,5 +215,6 @@ mdb = DB.MongoDB('mongodb://comp9321ass3:comp9321ass3@ds131323.mlab.com:31323/co
 
 #insert_rating()
 #insert_movie_info()
-df_movie = pd.read_csv('movies_metadata.csv', low_memory=False)
-extrace_category(df_movie)
+#df_movie = pd.read_csv('movies_metadata.csv', low_memory=False)
+#extrace_category(df_movie)
+insert_all_movie_info()

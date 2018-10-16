@@ -6,6 +6,8 @@ from functools import wraps
 import pandas as pd
 import DB
 import ML
+import re
+import json
 
 import configparser as confp
 
@@ -67,6 +69,29 @@ class Service:
             return m_list
         else:
             return None
+
+    def get_popular(self,category,name):
+        if name!='' and category!='':
+            movie_col = self.mdb.__getAllMovieCollection__().find({'title':re.compile(name),'genres':re.compile(category)}).sort([('popularity',-1)]).limit(10)
+        elif name=='' and category!='':
+            movie_col = self.mdb.__getAllMovieCollection__().find({'genres': re.compile(category)}).sort([('popularity', -1)]).limit(10)
+        elif name!='' and category=='':
+            movie_col = self.mdb.__getAllMovieCollection__().find({'title':re.compile(name)}).sort([('popularity',-1)]).limit(10)
+        elif name=='' and category=='':
+            movie_col = self.mdb.__getAllMovieCollection__().sort([('popularity', -1)])
+        m_list = list()
+        for row in movie_col:
+            m = dict()
+            m['movieId'] = row['movieId']
+            m['title']   = row['title']
+            m['vote_average'] = row['vote_average']
+            m['popularity'] = row['popularity']
+            m['overview'] = row['overview']
+            m['runtime'] = row['runtime']
+            m['genres'] = row['genres']
+            m_list.append(m)
+        #print(m_list)
+        return m_list
 
 
 # *******************Service class
@@ -149,12 +174,19 @@ class MovieInfo(Resource):
 # 3
 @api.route('/movies/popular')
 class MoviePopular(Resource):
+    @cors.crossdomain(origin='*', headers=['content-type'])
     def get(self):
-        pass
+        category = request.args.get('category')
+        name     = request.args.get('name')
+        return jsonify(movies=service.get_popular(category,name)), 200
+
+    @cors.crossdomain(origin='*', headers=['content-type'])
+    def options(self):
+        return {}, 200
 
 
 # 4
-@api.route('/movies/popular')
+@api.route('/movies/highrating')
 class MovieHighRating(Resource):
     def get(self):
         pass

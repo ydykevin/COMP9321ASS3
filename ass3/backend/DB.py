@@ -22,6 +22,9 @@ class MongoDB:
     def __getGenresCollection__(self):
         return self.getCollection('genres')
 
+    def __getAllMovieCollection__(self):
+        return self.getCollection('allMovies')
+
     def insert_one_movie_collection(self, data):
         return self.__getMovieCollection__().insert_one(data)
 
@@ -48,4 +51,7 @@ class MongoDB:
 
     def insert_genres(self, data):
         return self.__getGenresCollection__().insert_one(data)
+
+    def insert_many_all_movie_collection(self, data):
+        return self.__getAllMovieCollection__().insert_many(data)
 
