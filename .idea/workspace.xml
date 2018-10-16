@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b50e0e7d-8ad7-4d24-b3c9-8f4c49b03b51" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/COMP9321ASS3.iml" afterPath="$PROJECT_DIR$/.idea/COMP9321ASS3.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ass3/backend/PreWork.py" afterPath="$PROJECT_DIR$/ass3/backend/PreWork.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ass3/frontend/ass3.html" afterPath="$PROJECT_DIR$/ass3/frontend/ass3.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,11 +22,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="PreWork.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="PreWork.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ass3/backend/PreWork.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="114" column="13" lean-forward="true" selection-start-line="114" selection-start-column="13" selection-end-line="114" selection-end-column="13" />
+            <state relative-caret-position="-180">
+              <caret line="113" column="0" lean-forward="false" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -45,11 +44,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ass3.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ass3.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ass3/frontend/ass3.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="370">
-              <caret line="273" column="17" lean-forward="true" selection-start-line="273" selection-start-column="17" selection-end-line="273" selection-end-column="17" />
+            <state relative-caret-position="272">
+              <caret line="351" column="12" lean-forward="true" selection-start-line="351" selection-start-column="12" selection-end-line="351" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -58,8 +57,8 @@
       <file leaf-file-name="Server.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ass3/backend/Server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="229">
-              <caret line="185" column="0" lean-forward="true" selection-start-line="185" selection-start-column="0" selection-end-line="185" selection-end-column="0" />
+            <state relative-caret-position="150">
+              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -85,6 +84,7 @@
         <option value="$PROJECT_DIR$/ass3/DB.py" />
         <option value="$PROJECT_DIR$/ass3/PreWork.py" />
         <option value="$PROJECT_DIR$/ass3/backend/PreWork.py" />
+        <option value="$PROJECT_DIR$/ass3/frontend/ass3.html" />
       </list>
     </option>
   </component>
@@ -456,15 +456,15 @@
     <frame x="0" y="23" width="1280" height="709" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20859376" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21567044" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3171875" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32901135" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32901135" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -486,24 +486,6 @@
     <entry file="file://$PROJECT_DIR$/ass3/config.ini" />
     <entry file="file://$PROJECT_DIR$/ass3/DB.py" />
     <entry file="file://$PROJECT_DIR$/ass3/PreWork.py" />
-    <entry file="file://$PROJECT_DIR$/ass3/backend/Server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="185" column="0" lean-forward="true" selection-start-line="185" selection-start-column="0" selection-end-line="185" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ass3/frontend/ass3.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="273" column="17" lean-forward="true" selection-start-line="273" selection-start-column="17" selection-end-line="273" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ass3/backend/DB.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-446">
@@ -514,11 +496,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ass3/backend/PreWork.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="114" column="13" lean-forward="true" selection-start-line="114" selection-start-column="13" selection-end-line="114" selection-end-column="13" />
+        <state relative-caret-position="-180">
+          <caret line="113" column="0" lean-forward="false" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ass3/backend/Server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ass3/frontend/ass3.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="351" column="12" lean-forward="true" selection-start-line="351" selection-start-column="12" selection-end-line="351" selection-end-column="12" />
+          <folding />
         </state>
       </provider>
     </entry>

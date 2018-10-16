@@ -129,17 +129,22 @@
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">SEARCH</h1>          
             <form class="form-inline mt-2 mt-md-0">
-              <label>CATEGORY:</label>
-              <select class="form-control">
+              <label>Sort:</label>
+              <select class="form-control ml-2 mr-2" id="type">
+                <option value="all">None</option>
+                <option value="c1">Popularity</option>
+                <option value="c2">Rating</option>
+              </select>
+              <label>Category:</label>
+              <select class="form-control ml-2 mr-2" id="category">
                 <option value="all">All</option>
                 <option value="c1">Action</option>
                 <option value="c2">Young</option>
                 <option value="c3">Ghost</option>
                 <option value="c4">Crime</option>
               </select>
-              &nbsp;
               <input class="form-control mr-sm-2" placeholder="movie name" aria-label="Search" type="text">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="button">search</button>
+              <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="searchMovie">search</button>
             </form>    
           </div>
           <div class="table-responsive">
@@ -342,6 +347,10 @@
         });
         $("#seabnt").click(function(){hiddenAll();$("#search").css('display','block');});
         $("#loginBtn").click(function(){login();});
+
+        function search() {
+            
+        }
 
       });
 
