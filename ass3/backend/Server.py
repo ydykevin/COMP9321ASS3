@@ -18,7 +18,7 @@ config = confp.ConfigParser()
 config.read(filenames='config.ini')
 db_url = config['DEFAULT']['db_url']
 db_name = None
-limit = 20
+limit = 10
 if 'db_name' in config['DEFAULT']:
     db_name = config['DEFAULT']['db_name']
 
@@ -95,6 +95,10 @@ class Service:
             m['overview'] = row['overview']
             m['runtime'] = row['runtime']
             m['genres'] = row['genres']
+            rate_col = self.mdb.__getRatingCollection__().find({'userId':671, 'movieId': row['movieId']})
+            for rrow in rate_col:
+                m['rating']=rrow['rating']
+                break;
             m_list.append(m)
         #print(m_list)
         return m_list
@@ -112,8 +116,7 @@ class Service:
             return {"message": 'The rate is out of range (0,5]'}, 400
         
         mydict = {"userId": self.admin_user_id, "movieId": movieid, "rating": rate}
-
-        if not self.get_rating_by_mid_uid(self.admin_user_id, movieid):
+        if self.get_rating_by_mid_uid(self.admin_user_id, movieid):
             self.mdb.delete_one_rating_collection({'movieId': movieid, 'userId': self.admin_user_id})
 
         self.mdb.insert_one_rating_collection(mydict)
@@ -350,18 +353,21 @@ class UserRating(Resource):
 
     # 3
     @requires_auth
+    @cors.crossdomain(origin='*', headers=['content-type'])
     def get(self):
         try:
-            return {'rating_history':service.get_rate_history()}, 200
+            return jsonify(ratings = service.get_rate_history()), 200
         except:
-            return {'message':'cannot get rating history.'}, 400
+            return jsonify(message='cannot get rating history.'), 400
 
 
     #4
     def delete(self):
         pass
 
-
+    @cors.crossdomain(origin='*', headers=['content-type','token'])
+    def options(self):
+        return {}, 200
 # ************************************************ REGISTER ************************************************
 # ------------------------------------------------ LOGIN ------------------------------------------------
 @api.route('/users/login')
