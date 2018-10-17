@@ -70,15 +70,15 @@ class Service:
         else:
             return None
 
-    def get_popular(self,category,name):
+    def get_search(self,category,name,sort):
         if name!='' and category!='':
-            movie_col = self.mdb.__getAllMovieCollection__().find({'title':re.compile(name),'genres':re.compile(category)}).sort([('popularity',-1)]).limit(10)
+            movie_col = self.mdb.__getAllMovieCollection__().find({'title':re.compile(name),'genres':re.compile(category)}).sort([(sort,-1)]).limit(10)
         elif name=='' and category!='':
-            movie_col = self.mdb.__getAllMovieCollection__().find({'genres': re.compile(category)}).sort([('popularity', -1)]).limit(10)
+            movie_col = self.mdb.__getAllMovieCollection__().find({'genres': re.compile(category)}).sort([(sort, -1)]).limit(10)
         elif name!='' and category=='':
-            movie_col = self.mdb.__getAllMovieCollection__().find({'title':re.compile(name)}).sort([('popularity',-1)]).limit(10)
+            movie_col = self.mdb.__getAllMovieCollection__().find({'title':re.compile(name)}).sort([(sort,-1)]).limit(10)
         elif name=='' and category=='':
-            movie_col = self.mdb.__getAllMovieCollection__().find().sort([('popularity', -1)])
+            movie_col = self.mdb.__getAllMovieCollection__().find().sort([(sort, -1)])
         m_list = list()
         for row in movie_col:
             m = dict()
@@ -182,7 +182,7 @@ class MoviePopular(Resource):
             category=''
         if name==None:
             name=''
-        return jsonify(movies=service.get_popular(category,name)), 200
+        return jsonify(movies=service.get_search(category, name, 'popularity')), 200
 
     @cors.crossdomain(origin='*', headers=['content-type'])
     def options(self):
@@ -192,8 +192,19 @@ class MoviePopular(Resource):
 # 4
 @api.route('/movies/highrating')
 class MovieHighRating(Resource):
+    @cors.crossdomain(origin='*', headers=['content-type'])
     def get(self):
-        pass
+        category = request.args.get('category')
+        name = request.args.get('name')
+        if category == None:
+            category = ''
+        if name == None:
+            name = ''
+        return jsonify(movies=service.get_search(category, name, 'vote_average')), 200
+
+    @cors.crossdomain(origin='*', headers=['content-type'])
+    def options(self):
+        return {}, 200
 
 
 # ************************************************ PUBLIC ************************************************

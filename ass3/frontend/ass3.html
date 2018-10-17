@@ -213,7 +213,7 @@
               </tbody>
             </table>
 
-            <nav aria-label="Page navigation example">
+            <nav aria-label="Page navigation example" id="page">
               <ul class="pagination justify-content-center">
                 <li class="page-item disabled">
                   <a class="page-link" href="#" tabindex="-1">Previous</a>
@@ -226,6 +226,7 @@
                 </li>
               </ul>
             </nav>
+            <div>* Search by specific category or movie name only show the top 10 result</div>
           </div>
         </main>
       </div>
@@ -371,7 +372,7 @@
           var sort = $("#sort option:selected").text();
           var category = $("#category option:selected").text();
           var name = $("#nameInput").val();
-          alert('--'+sort+'--'+category+'--'+name+'--');
+//          alert('--'+sort+'--'+category+'--'+name+'--');
 
           var str = "";
           if(sort=="Popularity"){
@@ -380,14 +381,18 @@
             str = "highrating";
           }
 
-          if(category=='All'){
-              category='';
+          var data = {};
+          if(category!='All') {
+              data['category'] = category;
+          }
+          if(name!='') {
+              data['name'] = name;
           }
 
           $.ajax({
             url: prefix_url+"/movies/"+str,
             method: 'GET',
-            data: {category: category, name: name},
+            data: data,
             dataType: 'json',
             success: function(data){
               $("#movieTb tbody").html("");
@@ -402,6 +407,11 @@
                 tr.append("<td>-</td>");
                 tr.append("<td><button type=\"button\" class=\"btn btn-outline-primary btn-sm\">rate</button></td>");
                 $('#movieTb').append(tr)
+              }
+              if(category!=''||name!=''){
+                  $("#page").css('display','none');
+              }else{
+                  $("#page").css('display','block');
               }
             }
 
