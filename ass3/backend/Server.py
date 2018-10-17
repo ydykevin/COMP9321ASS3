@@ -27,6 +27,10 @@ parser.add_argument('w')
 parser.add_argument('page',type=int)
 parser.add_argument('category')
 
+parser2 = reqparse.RequestParser()
+parser2.add_argument('w')
+parser2.add_argument('category')
+
 # ******************* read basic info, db_url and db_name
 
 
@@ -77,13 +81,13 @@ class Service:
             return None
 
     def get_search(self,category,name,sort):
-        if name!='' and category!='':
+        if name!=None and category!=None:
             movie_col = self.mdb.__getAllMovieCollection__().find({'title':re.compile(name),'genres':re.compile(category)}).sort([(sort,-1)]).limit(limit)
-        elif name=='' and category!='':
+        elif name==None and category!=None:
             movie_col = self.mdb.__getAllMovieCollection__().find({'genres': re.compile(category)}).sort([(sort, -1)]).limit(limit)
-        elif name!='' and category=='':
+        elif name!=None and category==None:
             movie_col = self.mdb.__getAllMovieCollection__().find({'title':re.compile(name)}).sort([(sort,-1)]).limit(limit)
-        elif name=='' and category=='':
+        elif name==None and category==None:
             movie_col = self.mdb.__getAllMovieCollection__().find().sort([(sort, -1)]).limit(limit)
         m_list = list()
         for row in movie_col:
@@ -282,15 +286,12 @@ class MovieInfo(Resource):
 
 # 3
 @api.route('/movies/popular')
+@api.expect(parser2)
 class MoviePopular(Resource):
     @cors.crossdomain(origin='*', headers=['content-type'])
     def get(self):
-        category = request.args.get('category')
-        name     = request.args.get('name')
-        if category==None:
-            category=''
-        if name==None:
-            name=''
+        category = parser2.parse_args()['category']
+        name     = parser2.parse_args()['w']
         return jsonify(movies=service.get_search(category, name, 'popularity')), 200
 
     @cors.crossdomain(origin='*', headers=['content-type'])
@@ -300,15 +301,12 @@ class MoviePopular(Resource):
 
 # 4
 @api.route('/movies/highrating')
+@api.expect(parser2)
 class MovieHighRating(Resource):
     @cors.crossdomain(origin='*', headers=['content-type'])
     def get(self):
-        category = request.args.get('category')
-        name = request.args.get('name')
-        if category == None:
-            category = ''
-        if name == None:
-            name = ''
+        category = parser2.parse_args()['category']
+        name = parser2.parse_args()['w']
         return jsonify(movies=service.get_search(category, name, 'vote_average')), 200
 
     @cors.crossdomain(origin='*', headers=['content-type'])
