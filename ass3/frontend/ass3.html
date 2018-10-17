@@ -232,32 +232,19 @@
       </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal for movieInfo-->
     <div class="modal fade" id="movieInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Movie information</h5>
+            <h5 class="modal-title" id="movieInfoTitle"></h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <h5>some info ....</h5>
-            <h5>Description:</h5>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
-
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
-
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+            <!--<h5>some info ....</h5>-->
+            <h5 id="movie_description">Description:</h5>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -380,48 +367,93 @@
           }else if (sort=="Rating"){
             str = "highrating";
           }
-
           var data = {};
           if(category!='All') {
               data['category'] = category;
           }
           if(name!='') {
-              data['name'] = name;
+              data['w'] = name;
           }
+          if(str=="") {
+              url = prefix_url+"/movies";
+                 $.ajax({
+                  url: url,
+                  method: 'GET',
+                  data: data,
+                  dataType: 'json',
+                  success: function (data) {
+                      $("#movieTb tbody").html("");
+                      pages = data['total_pages']
+                        for(var i = 0;i<pages;i++) {
+                            var cur = data["page_"+(i+1)];
+                            for (var j = 0; j < cur.length; j++) {
+                                var m = cur[j];
+                                var tr = $("<tr></tr>")
+                                var td = $("<td><a  href=\"javascript:void(0);\" data-toggle=\"modal\" data-target=\"#movieInfo\">" + m.title + "</a></td>")
+                                td.on( "click", m, function(e){
+                                    $("#movieInfoTitle").text(e.data['title'])
+                                    $('#movie_description').text("Description:"+e.data['overview'])
+                                } );
+                                tr.append(td)
+                                //tr.append("<td><a id="+m['movieId']+" href=\"javascript:void(0);\" data-toggle=\"modal\" data-target=\"#movieInfo\">" + m.title + "</a></td>");
+                                tr.append("<td>" + Number(String(m.popularity)).toFixed(1) + "</td>");
+                                tr.append("<td>" + String(m.vote_average) + "</td>");
+                                tr.append("<td>" + String(m.genres) + "</td>");
+                                tr.append("<td>" + String(m.runtime) + "</td>");
+                                tr.append("<td>-</td>");
+                                tr.append("<td><button type=\"button\" class=\"btn btn-outline-primary btn-sm\">rate</button></td>");
+                                $('#movieTb').append(tr)
+                            }
+                        }
+                      if (category != '' || name != '') {
+                          $("#page").css('display', 'none');
+                      } else {
+                          $("#page").css('display', 'block');
+                      }
+                  }
 
-          $.ajax({
-            url: prefix_url+"/movies/"+str,
-            method: 'GET',
-            data: data,
-            dataType: 'json',
-            success: function(data){
-              $("#movieTb tbody").html("");
-              for(var i=0;i<data.movies.length;i++) {
-                var m = data.movies[i];
-                var tr = $("<tr></tr>")
-                tr.append("<td><a href=\"javascript:void(0);\" data-toggle=\"modal\" data-target=\"#movieInfo\">"+m.title+"</a></td>");
-                tr.append("<td>"+Number(String(m.popularity)).toFixed(1)+"</td>");
-                tr.append("<td>"+String(m.vote_average)+"</td>");
-                tr.append("<td>"+String(m.genres)+"</td>");
-                tr.append("<td>"+String(m.runtime)+"</td>");
-                tr.append("<td>-</td>");
-                tr.append("<td><button type=\"button\" class=\"btn btn-outline-primary btn-sm\">rate</button></td>");
-                $('#movieTb').append(tr)
-              }
-              if(category!=''||name!=''){
-                  $("#page").css('display','none');
-              }else{
-                  $("#page").css('display','block');
-              }
-            }
+              });
+          }
+          else {
+              url = prefix_url + "/movies/" + str
+              $.ajax({
+                  url: url,
+                  method: 'GET',
+                  data: data,
+                  dataType: 'json',
+                  success: function (data) {
+                      $("#movieTb tbody").html("");
+                      for (var i = 0; i < data.movies.length; i++) {
+                          var m = data.movies[i];
+                          var tr = $("<tr></tr>")
+                          tr.append("<td><a href=\"javascript:void(0);\" data-toggle=\"modal\" data-target=\"#movieInfo\">" + m.title + "</a></td>");
+                          tr.append("<td>" + Number(String(m.popularity)).toFixed(1) + "</td>");
+                          tr.append("<td>" + String(m.vote_average) + "</td>");
+                          tr.append("<td>" + String(m.genres) + "</td>");
+                          tr.append("<td>" + String(m.runtime) + "</td>");
+                          tr.append("<td>-</td>");
+                          tr.append("<td><button type=\"button\" class=\"btn btn-outline-primary btn-sm\">rate</button></td>");
+                          $('#movieTb').append(tr)
+                      }
+                      if (category != '' || name != '') {
+                          $("#page").css('display', 'none');
+                      } else {
+                          $("#page").css('display', 'block');
+                      }
+                  }
 
-          });
+              });
+          }
         }
 
         $("#searchBtn").click(function(){search();});
 
       });
 
+      function showMovieInfo(movie){
+          console.log('click')
+          $("#movieInfoTitle").textContent = movie['title']
+      }
       
 
       var topChart = new Chart(document.getElementById("topChart"), {

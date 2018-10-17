@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,make_response
 from flask_restplus import Resource, Api, fields, reqparse, abort, cors
 from itsdangerous import SignatureExpired, JSONWebSignatureSerializer, BadSignature
 from time import time
@@ -8,6 +8,7 @@ import DB
 import ML
 import re
 import json
+import math
 
 import configparser as confp
 
@@ -21,6 +22,10 @@ limit = 20
 if 'db_name' in config['DEFAULT']:
     db_name = config['DEFAULT']['db_name']
 
+parser = reqparse.RequestParser()
+parser.add_argument('w')
+parser.add_argument('page',type=int)
+parser.add_argument('category')
 
 # ******************* read basic info, db_url and db_name
 
@@ -125,6 +130,72 @@ class Service:
         
         return history
 
+    def get_allMovies(self, category, keyword, page):
+        if keyword and category is None:
+            regx = re.compile(r".*"+keyword+".*")
+            all_movies = self.mdb.__getAllMovieCollection__().find({"title":regx})
+        if keyword and category:
+            t_regx = re.compile(r".*" + keyword + ".*")
+            c_regx = re.compile(r".*"+category+".*")
+            all_movies = self.mdb.__getAllMovieCollection__().find({"title":t_regx,"genres":c_regx})
+        if keyword is None and category:
+            c_regx = re.compile(r".*"+category+".*")
+            all_movies = self.mdb.__getAllMovieCollection__().find({"genres": c_regx})
+        if keyword is None and category is None:
+            all_movies = self.mdb.__getAllMovieCollection__().find({})
+        if all_movies is None:
+            return {"message":"No movie is found"},404
+        r = {}
+        total = all_movies.count()
+        r['total'] = total
+        r['total_pages'] = math.ceil(float(total) / limit)
+        m_list= []
+        if page:
+            if  page > r['total_pages'] or page < 1:
+                return {"message": 'Invalid page number'}, 400
+            r['current_page'] = page
+            for i in all_movies[limit*(page-1):limit*(page-1)+20]:
+                m_list.append({"title": i['title'],
+                               "movieId": i['movieId'],
+                               "vote_average": i['vote_average'],
+                               "genres": i['genres'],
+                               "runtime": i['runtime'],
+                               "popularity": i['popularity'],
+                               "overview": i['overview']})
+            r['movies'] = m_list
+            return make_response(jsonify(r),200)
+        else:
+            num = 1
+            count = 1
+            m_list = []
+            for i in all_movies:
+                m_list.append({"title": i['title'],
+                               "movieId": i['movieId'],
+                               "vote_average": i['vote_average'],
+                               "genres": i['genres'],
+                               "runtime": i['runtime'],
+                               "popularity": i['popularity'],
+                               "overview": i['overview']})
+                r['page_'+str(num)] = m_list
+                count += 1
+                if count % 21 == 0:
+                    count = 1;
+                    m_list=[]
+                    num += 1
+            return jsonify(r), 200
+
+    def get_Movie(self, id):
+        movie = self.mdb.__getAllMovieCollection__().find_one({'movieId': id})
+        if movie:
+            return make_response(jsonify({"title": movie['title'],
+                    "id": movie['movieId'],
+                    "vote_average": movie['vote_average'],
+                    "genres":movie['genres'],
+                    "runtime": movie['runtime'],
+                    "popularity": movie['popularity'],
+                    "overview": movie['overview']}), 200)
+        return {"message": "Movie id = {} does not exist from the database!".format(id)}, 404
+
 # *******************Service class
 
 # -------------------AuthenticationToken class
@@ -188,16 +259,22 @@ service = Service()
 # ------------------------------------------------ PUBLIC ------------------------------------------------
 # 1
 @api.route('/movies')
+@api.expect(parser)
 class Movies(Resource):
+    @cors.crossdomain(origin='*', headers=['content-type'])
     def get(self):
-        pass
+        keyword = parser.parse_args()['w']
+        page = parser.parse_args()['page']
+        category = parser.parse_args()['category']
+        return service.get_allMovies(category,keyword,page)
 
 
 # 2
-@api.route('/movies/<string:id>')
+@api.route('/movies/<int:id>')
 class MovieInfo(Resource):
+    @cors.crossdomain(origin='*', headers=['content-type'])
     def get(self, id):
-        pass
+        return service.get_Movie(id)
 
 
 # 3
