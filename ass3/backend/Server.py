@@ -17,7 +17,7 @@ config = confp.ConfigParser()
 config.read(filenames='config.ini')
 db_url = config['DEFAULT']['db_url']
 db_name = None
-limit = 20
+limit = 10
 if 'db_name' in config['DEFAULT']:
     db_name = config['DEFAULT']['db_name']
 
@@ -90,6 +90,10 @@ class Service:
             m['overview'] = row['overview']
             m['runtime'] = row['runtime']
             m['genres'] = row['genres']
+            rate_col = self.mdb.__getRatingCollection__().find({'userId':671, 'movieId': row['movieId']})
+            for rrow in rate_col:
+                m['rating']=rrow['rating']
+                break;
             m_list.append(m)
         #print(m_list)
         return m_list
