@@ -94,11 +94,11 @@ class Service:
         #print(m_list)
         return m_list
 
-    def get_movie_by_id(self, movieId):
-        return self.mdb.find_one_movie_collection({'movieId': movieId})
+    def get_movie_by_id(movieId):
+        return self.mdb.find_one_movie_collection({'movieId': movieid})
 
-    def get_rating_by_mid_uid(self, user_id, movie_id):
-        return self.mdb.find_one_rating_collection({'userId':user_id,'movieId': movie_id})
+    def get_rating_by_mid_uid(user_id, movie_id):
+        return self.mdb.find_one_rating_collection({'userId':self.admin_user_id,'movieId': movieid})
 
     def save_rating(self, movieid, rate):
         if not self.get_movie_by_id(movieid):
