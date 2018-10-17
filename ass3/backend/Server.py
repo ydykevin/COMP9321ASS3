@@ -93,6 +93,36 @@ class Service:
         #print(m_list)
         return m_list
 
+    def get_movie_by_id(movieId):
+        return self.mdb.find_one_movie_collection({'movieId': movieid})
+
+    def get_rating_by_mid_uid(user_id, movie_id):
+        return self.mdb.find_one_rating_collection({'userId':self.admin_user_id,'movieId': movieid})
+
+    def save_rating(self, movieid, rate):
+        if not self.get_movie_by_id(movieid):
+            return {"message": 'The movieid is wrong or this collection is not in the database'}, 400
+        elif not (0 < float(rate) <= 5):
+            return {"message": 'The rate is out of range (0,5]'}, 400
+        
+        mydict = {"userId": self.admin_user_id, "movieId": movieid, "rating": rate}
+
+        if not self.get_rating_by_mid_uid(self.admin_user_id, movieid):
+            self.mdb.delete_one_rating_collection({'movieId': movieid, 'userId': self.admin_user_id})
+
+        self.mdb.insert_one_rating_collection(mydict)
+        return {
+        "userId": self.admin_user_id,
+            "movieId": movieid,
+            "rating": rate
+        },200
+
+    def get_rate_history(self):
+        history = []
+        for x in self.mdb.find_many_rating_collection({'userId': self.admin_user_id}, {'_id': 0}):
+            history.append(x)
+        
+        return history
 
 # *******************Service class
 
@@ -118,8 +148,6 @@ class AuthenticationToken:
                 or info['username'] != 'admin':
             return False
         return True
-
-
 # *******************AuthenticationToken class
 
 # -------------------valid method
@@ -132,7 +160,7 @@ def requires_auth(f):
         try:
             if not auth.validate_token(token):
                 abort(401, 'token is incorrect or expired')
-        except BadSignature as e:
+        except:
             abort(401, 'token is incorrect or expired')
         return f(*args, **kwargs)
 
@@ -228,13 +256,28 @@ class MovieRecommendation(Resource):
 class UserRating(Resource):
     # 2
     @requires_auth
+    @api.doc(params={'movieId': 'movie id', 'rate': 'rating'})
     def put(self):
-        pass
+        parser = reqparse.RequestParser()
+        parser.add_argument('rate', type=str)
+        parser.add_argument('movieId', type=str)
+        args = parser.parse_args()
+        try:
+            movieid = int(args.get('movieId'))
+            rate = float(args.get('rate'))
+        except:
+            return {'message': 'arguements are invalid.'}, 400
+
+        return service.save_rating(movieid, rate)
 
     # 3
     @requires_auth
     def get(self):
-        pass
+        try:
+            return {'rating_history':service.get_rate_history()}, 200
+        except:
+            return {'message':'cannot get rating history.'}, 400
+
 
     #4
     def delete(self):

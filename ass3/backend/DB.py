@@ -37,6 +37,9 @@ class MongoDB:
     def insert_many_rating_collection(self, data):
         return self.__getRatingCollection__().insert_many(data)
 
+    def delete_one_rating_collection(self, data):
+        return self.__getRatingCollection__().delete_one(data)
+        
     def find_one_movie_collection(self, q=None, arg=None):
         return self.__getMovieCollection__().find_one(q,arg);
 
