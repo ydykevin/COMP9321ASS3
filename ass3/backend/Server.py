@@ -107,8 +107,7 @@ class Service:
             return {"message": 'The rate is out of range (0,5]'}, 400
         
         mydict = {"userId": self.admin_user_id, "movieId": movieid, "rating": rate}
-
-        if not self.get_rating_by_mid_uid(self.admin_user_id, movieid):
+        if self.get_rating_by_mid_uid(self.admin_user_id, movieid):
             self.mdb.delete_one_rating_collection({'movieId': movieid, 'userId': self.admin_user_id})
 
         self.mdb.insert_one_rating_collection(mydict)
@@ -273,18 +272,21 @@ class UserRating(Resource):
 
     # 3
     @requires_auth
+    @cors.crossdomain(origin='*', headers=['content-type'])
     def get(self):
         try:
-            return {'rating_history':service.get_rate_history()}, 200
+            return jsonify(ratings = service.get_rate_history()), 200
         except:
-            return {'message':'cannot get rating history.'}, 400
+            return jsonify(message='cannot get rating history.'), 400
 
 
     #4
     def delete(self):
         pass
 
-
+    @cors.crossdomain(origin='*', headers=['content-type','token'])
+    def options(self):
+        return {}, 200
 # ************************************************ REGISTER ************************************************
 # ------------------------------------------------ LOGIN ------------------------------------------------
 @api.route('/users/login')

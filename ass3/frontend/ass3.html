@@ -124,6 +124,22 @@
               </tbody>
             </table>
           </div>
+
+          <h2>Rating history</h2>
+          <div class="table-responsive">
+            <table class="table table-striped table-sm">
+              <thead>
+                <tr>
+                  <th>Movie</th>
+                  <th>Rating</th>
+                </tr>
+              </thead>
+              <tbody id='rathisTable'>
+                
+              </tbody>
+            </table>
+          </div>
+
         </main>
 
         <main id='search' style="display: none" role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
@@ -354,6 +370,25 @@
                     tr.append("<td>"+String(m.popularity)+"</td>");
                     tr.append("<td>"+String(m.runtime)+"</td>");
                     $('#recmTable').append(tr)
+                  }
+                },
+                headers: { 'token': token },
+                error:function(XMLHttpRequest, textStatus, errorThrown){
+                  alert('invalid token, please login again');
+                }
+            });
+
+            $.ajax({
+                url: prefix_url+"/users/rating",
+                method: 'GET',
+                dataType: 'json',
+                success: function(data){
+                  for(var i=0;i<data.ratings.length;i++) {
+                    var m = data.ratings[i];
+                    var tr = $("<tr></tr>")
+                    tr.append("<td>"+String(m.movieId)+"</td>");
+                    tr.append("<td>"+String(m.rating)+"</td>");
+                    $('#rathisTable').append(tr)
                   }
                 },
                 headers: { 'token': token },
