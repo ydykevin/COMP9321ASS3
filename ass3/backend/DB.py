@@ -2,7 +2,7 @@ import pymongo
 
 
 class MongoDB:
-    def __init__(self, url='mongodb://chi:123456a@ds017544.mlab.com:17544/my-db',db_name=None):
+    def __init__(self, url='mongodb://9321ass3:9321ass3@ds129344.mlab.com:29344/comp9321ass3',db_name=None):
 
         myclient = pymongo.MongoClient(url)
         if db_name:

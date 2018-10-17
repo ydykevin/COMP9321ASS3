@@ -206,15 +206,15 @@ def insert_all_movie_info():
 
 
 # local
-# mdb = DB.MongoDB('mongodb://127.0.0.1:27017', db_name='local')
+mdb = DB.MongoDB('mongodb://127.0.0.1:27017', db_name='ass3')
 
 # online
 # Dayi Yang database
-mdb = DB.MongoDB('mongodb://comp9321ass3:comp9321ass3@ds131323.mlab.com:31323/comp9321ass3')
+# mdb = DB.MongoDB('mongodb://9321ass3:9321ass3@ds129344.mlab.com:29344/comp9321ass3')
 
 
-#insert_rating()
-#insert_movie_info()
-#df_movie = pd.read_csv('movies_metadata.csv', low_memory=False)
-#extrace_category(df_movie)
-insert_all_movie_info()
+insert_rating()
+insert_movie_info()
+df_movie = pd.read_csv('movies_metadata.csv', low_memory=False)
+extrace_category(df_movie)
+# insert_all_movie_info()
