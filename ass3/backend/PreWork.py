@@ -14,7 +14,19 @@ inser rating.csv data to database
 '''
 def insert_rating():
     global mdb
-    df = pd.read_csv('ratings_small.csv')
+
+
+
+    df = pd.read_csv('ratings_small.csv')df_movie = pd.read_csv('movies_metadata.csv', low_memory=False)
+
+    df_movie = df_movie[['id', 'title', 'vote_average', 'popularity', 'overview', 'runtime']].set_index('id').loc[get_movieIds()]
+
+    df_movie['title'] = df_movie['title'].fillna('').astype(str)
+    df_movie['overview'] = df_movie['overview'].fillna('').astype(str)
+
+    df_movie['vote_average'] = df_movie['vote_average'].fillna(0.0).astype(float)
+    df_movie['popularity'] = df_movie['popularity'].fillna(0.0).astype(float)
+    df_movie['runtime'] = df_movie['runtime'].fillna(0.0).astype(float)
 
     df = df.pivot(index='userId', columns='movieId', values='rating').fillna(0.0)
     # print(df)
@@ -35,6 +47,7 @@ def insert_rating():
             movieId = j + 1
             if rating == 0:
                 continue
+            dt['mname'] = df_movie.loc[str(movieId)].head(1).title.values[0]
             dt['userId'] = userId
             dt['movieId'] = movieId
             dt['rating'] = rating
