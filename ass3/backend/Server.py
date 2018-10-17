@@ -17,6 +17,7 @@ config = confp.ConfigParser()
 config.read(filenames='config.ini')
 db_url = config['DEFAULT']['db_url']
 db_name = None
+limit = 20
 if 'db_name' in config['DEFAULT']:
     db_name = config['DEFAULT']['db_name']
 
@@ -72,13 +73,13 @@ class Service:
 
     def get_search(self,category,name,sort):
         if name!='' and category!='':
-            movie_col = self.mdb.__getAllMovieCollection__().find({'title':re.compile(name),'genres':re.compile(category)}).sort([(sort,-1)]).limit(10)
+            movie_col = self.mdb.__getAllMovieCollection__().find({'title':re.compile(name),'genres':re.compile(category)}).sort([(sort,-1)]).limit(limit)
         elif name=='' and category!='':
-            movie_col = self.mdb.__getAllMovieCollection__().find({'genres': re.compile(category)}).sort([(sort, -1)]).limit(10)
+            movie_col = self.mdb.__getAllMovieCollection__().find({'genres': re.compile(category)}).sort([(sort, -1)]).limit(limit)
         elif name!='' and category=='':
-            movie_col = self.mdb.__getAllMovieCollection__().find({'title':re.compile(name)}).sort([(sort,-1)]).limit(10)
+            movie_col = self.mdb.__getAllMovieCollection__().find({'title':re.compile(name)}).sort([(sort,-1)]).limit(limit)
         elif name=='' and category=='':
-            movie_col = self.mdb.__getAllMovieCollection__().find().sort([(sort, -1)])
+            movie_col = self.mdb.__getAllMovieCollection__().find().sort([(sort, -1)]).limit(limit)
         m_list = list()
         for row in movie_col:
             m = dict()
