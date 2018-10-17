@@ -47,7 +47,13 @@ def insert_rating():
             movieId = j + 1
             if rating == 0:
                 continue
-            dt['mname'] = df_movie.loc[str(movieId)].head(1).title.values[0]
+            if str(movieId) == '4912':
+                nn = df_movie.loc[str(movieId)].title.values[0]
+            else:
+                nn = df_movie.loc[str(movieId)].title
+            dt['mname'] = nn
+            if nn == '':
+                dt['mname'] = 'movie' + movieId
             dt['userId'] = userId
             dt['movieId'] = movieId
             dt['rating'] = rating
