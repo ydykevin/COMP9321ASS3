@@ -183,7 +183,7 @@ def insert_all_movie_info():
             while (i<len(genres_reg)):
                 genresString += genres_reg[i]
                 if i+1<len(genres_reg):
-                    genresString += ' '
+                    genresString += ', '
                 i = i + 1
             m_d['genres'] = genresString
         m_d['vote_average'] = row.vote_average

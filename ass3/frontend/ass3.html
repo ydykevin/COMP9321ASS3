@@ -380,6 +380,10 @@
             str = "highrating";
           }
 
+          if(category=='All'){
+              category='';
+          }
+
           $.ajax({
             url: prefix_url+"/movies/"+str,
             method: 'GET',

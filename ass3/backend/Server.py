@@ -78,7 +78,7 @@ class Service:
         elif name!='' and category=='':
             movie_col = self.mdb.__getAllMovieCollection__().find({'title':re.compile(name)}).sort([('popularity',-1)]).limit(10)
         elif name=='' and category=='':
-            movie_col = self.mdb.__getAllMovieCollection__().sort([('popularity', -1)])
+            movie_col = self.mdb.__getAllMovieCollection__().find().sort([('popularity', -1)])
         m_list = list()
         for row in movie_col:
             m = dict()
@@ -178,6 +178,10 @@ class MoviePopular(Resource):
     def get(self):
         category = request.args.get('category')
         name     = request.args.get('name')
+        if category==None:
+            category=''
+        if name==None:
+            name=''
         return jsonify(movies=service.get_popular(category,name)), 200
 
     @cors.crossdomain(origin='*', headers=['content-type'])
