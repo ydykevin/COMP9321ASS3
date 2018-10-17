@@ -14,7 +14,7 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/COMP9321ASS3$PreWork.coverage" NAME="PreWork Coverage Results" MODIFIED="1539425903005" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ass3" />
-    <SUITE FILE_PATH="coverage/COMP9321ASS3$Server.coverage" NAME="Server Coverage Results" MODIFIED="1539746840447" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ass3/backend" />
+    <SUITE FILE_PATH="coverage/COMP9321ASS3$Server.coverage" NAME="Server Coverage Results" MODIFIED="1539752183159" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ass3/backend" />
     <SUITE FILE_PATH="coverage/COMP9321ASS3$PreWork__1_.coverage" NAME="PreWork Coverage Results" MODIFIED="1539745056735" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ass3/backend" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -26,8 +26,8 @@
       <file leaf-file-name="PreWork.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ass3/backend/PreWork.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3210">
-              <caret line="214" column="0" lean-forward="true" selection-start-line="214" selection-start-column="0" selection-end-line="214" selection-end-column="0" />
+            <state relative-caret-position="195">
+              <caret line="24" column="27" lean-forward="false" selection-start-line="24" selection-start-column="27" selection-end-line="24" selection-end-column="27" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -38,28 +38,28 @@
       <file leaf-file-name="DB.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ass3/backend/DB.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="611">
-              <caret line="53" column="0" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+            <state relative-caret-position="41">
+              <caret line="15" column="38" lean-forward="true" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="38" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ass3.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ass3.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ass3/frontend/ass3.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="245">
-              <caret line="228" column="92" lean-forward="false" selection-start-line="228" selection-start-column="92" selection-end-line="228" selection-end-column="92" />
+            <state relative-caret-position="95">
+              <caret line="404" column="59" lean-forward="true" selection-start-line="404" selection-start-column="59" selection-end-line="404" selection-end-column="59" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Server.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Server.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ass3/backend/Server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1125">
-              <caret line="75" column="153" lean-forward="false" selection-start-line="75" selection-start-column="153" selection-end-line="75" selection-end-column="153" />
+            <state relative-caret-position="-915">
+              <caret line="19" column="10" lean-forward="false" selection-start-line="19" selection-start-column="10" selection-end-line="19" selection-end-column="10" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -564,16 +564,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ass3/backend/DB.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="611">
-          <caret line="53" column="0" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+        <state relative-caret-position="41">
+          <caret line="15" column="38" lean-forward="true" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ass3/frontend/ass3.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="404" column="59" lean-forward="true" selection-start-line="404" selection-start-column="59" selection-end-line="404" selection-end-column="59" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ass3/backend/PreWork.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3210">
-          <caret line="214" column="0" lean-forward="true" selection-start-line="214" selection-start-column="0" selection-end-line="214" selection-end-column="0" />
+        <state relative-caret-position="195">
+          <caret line="24" column="27" lean-forward="false" selection-start-line="24" selection-start-column="27" selection-end-line="24" selection-end-column="27" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
@@ -582,19 +590,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ass3/backend/Server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1125">
-          <caret line="75" column="153" lean-forward="false" selection-start-line="75" selection-start-column="153" selection-end-line="75" selection-end-column="153" />
+        <state relative-caret-position="-915">
+          <caret line="19" column="10" lean-forward="false" selection-start-line="19" selection-start-column="10" selection-end-line="19" selection-end-column="10" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ass3/frontend/ass3.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="228" column="92" lean-forward="false" selection-start-line="228" selection-start-column="92" selection-end-line="228" selection-end-column="92" />
-          <folding />
         </state>
       </provider>
     </entry>

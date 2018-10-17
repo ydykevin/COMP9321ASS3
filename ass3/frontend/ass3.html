@@ -404,7 +404,7 @@
                 tr.append("<td>"+String(m.vote_average)+"</td>");
                 tr.append("<td>"+String(m.genres)+"</td>");
                 tr.append("<td>"+String(m.runtime)+"</td>");
-                tr.append("<td>-</td>");
+                tr.append("<td>"+String(m.rating?m.rating:'-')+"</td>");
                 tr.append("<td><button type=\"button\" class=\"btn btn-outline-primary btn-sm\">rate</button></td>");
                 $('#movieTb').append(tr)
               }
