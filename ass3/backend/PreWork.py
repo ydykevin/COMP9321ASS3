@@ -210,7 +210,7 @@ def insert_all_movie_info():
 
 
 # local
-# mdb = DB.MongoDB('mongodb://127.0.0.1:27017', db_name='ass3')
+mdb = DB.MongoDB('mongodb://127.0.0.1:27017', db_name='ass3')
 # mdb = DB.MongoDB('mongodb://chi:123456a@ds017544.mlab.com:17544/my-db')
 
 # online

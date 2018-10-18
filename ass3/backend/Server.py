@@ -81,6 +81,9 @@ class Service:
             return None
 
     def get_search(self,category,name,sort):
+        if category:
+            if self.mdb.__getGenresCollection__().find_one({"genres":category}) is None:
+                return {"message": str(category)+" does not exist"},404
         if name!=None and category!=None:
             movie_col = self.mdb.__getAllMovieCollection__().find({'title':re.compile(name),'genres':re.compile(category)}).sort([(sort,-1)]).limit(limit)
         elif name==None and category!=None:
@@ -89,6 +92,8 @@ class Service:
             movie_col = self.mdb.__getAllMovieCollection__().find({'title':re.compile(name)}).sort([(sort,-1)]).limit(limit)
         elif name==None and category==None:
             movie_col = self.mdb.__getAllMovieCollection__().find().sort([(sort, -1)]).limit(limit)
+        if movie_col.count()==0:
+            return {"message":"No movie is found"},404
         m_list = list()
         for row in movie_col:
             m = dict()
@@ -105,7 +110,7 @@ class Service:
                 break;
             m_list.append(m)
         #print(m_list)
-        return m_list
+        return (m_list,200)
 
     def get_movie_by_id(self, movieId):
         return self.mdb.find_one_movie_collection({'movieId': movieId})
@@ -143,6 +148,9 @@ class Service:
         return history
 
     def get_allMovies(self, category, keyword, page):
+        if category:
+            if self.mdb.__getGenresCollection__().find_one({"genres":category}) is None:
+                return make_response(jsonify({"message":"Category {} does not exist".format(category)}),404)
         if keyword and category is None:
             regx = re.compile(r".*"+keyword+".*")
             all_movies = self.mdb.__getAllMovieCollection__().find({"title":regx})
@@ -155,8 +163,8 @@ class Service:
             all_movies = self.mdb.__getAllMovieCollection__().find({"genres": c_regx})
         if keyword is None and category is None:
             all_movies = self.mdb.__getAllMovieCollection__().find({})
-        if all_movies is None:
-            return {"message":"No movie is found"},404
+        if all_movies.count()==0:
+            return make_response(jsonify({"message":"No movie is found"}),404)
         r = {}
         total = all_movies.count()
         r['total'] = total
@@ -164,7 +172,7 @@ class Service:
         m_list= []
         if page:
             if  page > r['total_pages'] or page < 1:
-                return {"message": 'Invalid page number'}, 400
+                return make_response(jsonify({"message": 'Invalid page number'}), 400)
             r['current_page'] = page
             for i in all_movies[limit*(page-1):limit*(page-1)+10]:
                 rate_col = self.mdb.__getRatingCollection__().find_one({'userId': 671, 'movieId': i['movieId']})
@@ -192,6 +200,7 @@ class Service:
                     rating = rate_col['rating']
                 else:
                     rating = "-"
+                print(i)
                 m_list.append({"title": i['title'],
                                "movieId": i['movieId'],
                                "rating":rating,
@@ -224,7 +233,7 @@ class Service:
                     "runtime": movie['runtime'],
                     "popularity": '-' if movie['popularity']==0 else round(movie['popularity'],1),
                     "overview": movie['overview']}), 200)
-        return {"message": "Movie id = {} does not exist from the database!".format(id)}, 404
+        return make_response(jsonify({"message": "Movie id = {} does not exist from the database!".format(id)}), 404)
 
     def delete_rating(self,user_rating):
         if self.mdb.find_one_rating_collection({"userId": self.admin_user_id, "movieId": user_rating}):
@@ -322,7 +331,11 @@ class MoviePopular(Resource):
     def get(self):
         category = parser2.parse_args()['category']
         name     = parser2.parse_args()['w']
-        return jsonify(movies=service.get_search(category, name, 'popularity')), 200
+        a,b = service.get_search(category, name, 'popularity')
+        if b==404:
+            return jsonify(a),b
+        else:
+            return jsonify({'movies':a}), 200
 
 
 # 4
@@ -333,7 +346,11 @@ class MovieHighRating(Resource):
     def get(self):
         category = parser2.parse_args()['category']
         name = parser2.parse_args()['w']
-        return jsonify(movies=service.get_search(category, name, 'vote_average')), 200
+        a, b = service.get_search(category, name, 'vote_average')
+        if b == 404:
+            return jsonify(a), b
+        else:
+            return jsonify({'movies': a}), 200
 
 
 # ************************************************ PUBLIC ************************************************
