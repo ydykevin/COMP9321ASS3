@@ -229,16 +229,16 @@
               </tbody>
             </table>
 
-            <nav aria-label="Page navigation example" id="page">
-              <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                  <a class="page-link" href="#" tabindex="-1">Previous</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <nav aria-label="Page navigation example" id="page" style="display: none">
+              <ul class="pagination justify-content-center" id="pagelist">
+                <!--<li class="page-item disabled">-->
+                  <!--<a class="page-link" href="#" tabindex="-1">Previous</a>-->
+                <!--</li>-->
+                <!--<li class="page-item"><a class="page-link" href="#">1</a></li>-->
+                <!--<li class="page-item"><a class="page-link" href="#">2</a></li>-->
+                <!--<li class="page-item"><a class="page-link" href="#">3</a></li>-->
                 <li class="page-item">
-                  <a class="page-link" href="#">Next</a>
+                  <!--<a class="page-link" href="#">Next</a>-->
                 </li>
               </ul>
             </nav>
@@ -410,17 +410,31 @@
               data['w'] = name;
           }
           if(str=="") {
+              if(name=="") name = undefined
               url = prefix_url+"/movies";
                  $.ajax({
                   url: url,
                   method: 'GET',
                   data: data,
                   dataType: 'json',
-                  success: function (data) {
+                  success: function (result) {
                       $("#movieTb tbody").html("");
-                      pages = data['total_pages']
-                        for(var i = 0;i<pages;i++) {
-                            var cur = data["page_"+(i+1)];
+                      pages = result['total_pages']
+                       $('#page').css('display','');
+                      $('#pagelist').html('')
+                      if(pages>5){
+                          for(var i=1;i<6;i++){
+                              $('#pagelist').append("<li id=page"+i+" onclick='getMoviePage("+i+",\""+name+"\",\""+category+"\")' class=\"page-item\"><a class=\"page-link\" href=\"#\">"+i+"</a></li>")
+                          }
+                          $('#pagelist').append("<li  onclick='extendPage("+pages+",5,\""+name+"\",\""+category+"\")' class=\"page-item\"><a class=\"page-link\" href=\"#\">\></a></li>")
+                      }
+                      else{
+                          for(var i=1;i<pages;i++){
+                              $('#pagelist').append("<li id=page"+i+" onclick='getMoviePage("+i+",\""+name+"\",\""+category+"\")' class=\"page-item\"><a class=\"page-link\" href=\"#\">"+i+"</a></li>")
+                          }
+                      }
+                        for(var i = 0;i<1;i++) {
+                            var cur = result["page_"+(i+1)];
                             for (var j = 0; j < cur.length; j++) {
                                 var m = cur[j];
                                 var tr = $("<tr></tr>")
@@ -431,20 +445,15 @@
                                 } );
                                 tr.append(td)
                                 //tr.append("<td><a id="+m['movieId']+" href=\"javascript:void(0);\" data-toggle=\"modal\" data-target=\"#movieInfo\">" + m.title + "</a></td>");
-                                tr.append("<td>" + Number(String(m.popularity)).toFixed(1) + "</td>");
+                                tr.append("<td>" + String(m.popularity) + "</td>");
                                 tr.append("<td>" + String(m.vote_average) + "</td>");
                                 tr.append("<td>" + String(m.genres) + "</td>");
                                 tr.append("<td>" + String(m.runtime) + "</td>");
-                                tr.append("<td>-</td>");
+                                tr.append("<td>" + String(m.rating?m.rating:'-') + "</td>");
                                 tr.append("<td><button type=\"button\" class=\"btn btn-outline-primary btn-sm\">rate</button></td>");
                                 $('#movieTb').append(tr)
                             }
                         }
-                      if (category != '' || name != '') {
-                          $("#page").css('display', 'none');
-                      } else {
-                          $("#page").css('display', 'block');
-                      }
                   }
               });
           }
@@ -460,8 +469,13 @@
                       for (var i = 0; i < data.movies.length; i++) {
                           var m = data.movies[i];
                           var tr = $("<tr></tr>")
-                          tr.append("<td><a href=\"javascript:void(0);\" data-toggle=\"modal\" data-target=\"#movieInfo\">" + m.title + "</a></td>");
-                          tr.append("<td>" + Number(String(m.popularity)).toFixed(1) + "</td>");
+                          var td = $("<td><a  href=\"javascript:void(0);\" data-toggle=\"modal\" data-target=\"#movieInfo\">" + m.title + "</a></td>")
+                          td.on( "click", m, function(e){
+                              $("#movieInfoTitle").text(e.data['title'])
+                              $('#movie_description').text("Description:"+e.data['overview'])
+                          } );
+                          tr.append(td)
+                          tr.append("<td>" + String(m.popularity) + "</td>");
                           tr.append("<td>" + String(m.vote_average) + "</td>");
                           tr.append("<td>" + String(m.genres) + "</td>");
                           tr.append("<td>" + String(m.runtime) + "</td>");
@@ -483,9 +497,94 @@
 
       });
 
-      function showMovieInfo(movie){
-          console.log('click')
-          $("#movieInfoTitle").textContent = movie['title']
+
+      function getMoviePage(page,name,category){
+          data = {}
+          if(name!="undefined") data['w'] = name
+            if(category!='All') {
+              data['category'] = category;
+          }
+          data['page'] = page
+          $.ajax({
+                  url: "http://127.0.0.1:5000/movies",
+                  method: 'GET',
+                  data: data,
+                  dataType: 'json',
+                  success: function (data) {
+                      $("#movieTb tbody").html("");
+                        for(var i = 0;i<1;i++) {
+                            var cur = data['movies'];
+                            for (var j = 0; j < cur.length; j++) {
+                                var m = cur[j];
+                                var tr = $("<tr></tr>")
+                                var td = $("<td><a  href=\"javascript:void(0);\" data-toggle=\"modal\" data-target=\"#movieInfo\">" + m.title + "</a></td>")
+                                td.on( "click", m, function(e){
+                                    $("#movieInfoTitle").text(e.data['title'])
+                                    $('#movie_description').text("Description:"+e.data['overview'])
+                                } );
+                                tr.append(td)
+                                //tr.append("<td><a id="+m['movieId']+" href=\"javascript:void(0);\" data-toggle=\"modal\" data-target=\"#movieInfo\">" + m.title + "</a></td>");
+                                tr.append("<td>" + String(m.popularity)+ "</td>");
+                                tr.append("<td>" + String(m.vote_average) + "</td>");
+                                tr.append("<td>" + String(m.genres) + "</td>");
+                                tr.append("<td>" + String(m.runtime) + "</td>");
+                                tr.append("<td>" + String(m.rating?m.rating:'-') + "</td>");
+                                tr.append("<td><button type=\"button\" class=\"btn btn-outline-primary btn-sm\">rate</button></td>");
+                                $('#movieTb').append(tr)
+                            }
+                        }
+                  }
+              });
+      }
+
+      function extendPage(total,num,name,category){
+          $('#pagelist').html('')
+          var i;
+          $('#pagelist').append("<li  onclick='reducePage("+pages+","+(num+5)+",\""+name+"\",\""+category+"\")' class=\"page-item\"><a class=\"page-link\" href=\"#\">\<</a></li>")
+          for( i =num+1;i<num+6;i++){
+              if(i<=total) {
+                  $('#pagelist').append("<li id=page" + i + " onclick='getMoviePage(" + i + ",\"" + name + "\",\"" + category + "\")' class=\"page-item\"><a class=\"page-link\" href=\"#\">" + i + "</a></li>")
+              }
+          }
+          if(i<total){
+              i = i-1
+              $('#pagelist').append("<li  onclick='extendPage("+pages+","+i+",\""+name+"\",\""+category+"\")' class=\"page-item\"><a class=\"page-link\" href=\"#\">\></a></li>")
+          }
+      }
+
+          function reducePage(total,num,name,category){
+            $('#pagelist').html('')
+            var i;
+            if(num-9<1){
+                for(var j =1;j<6;j++){
+                    $('#pagelist').append("<li id=page" + i + " onclick='getMoviePage(" + j + ",\"" + name + "\",\"" + category + "\")' class=\"page-item\"><a class=\"page-link\" href=\"#\">" + j + "</a></li>")
+                }
+            }
+            else{
+                if(num%5==0){
+                    if(num-9!=1){
+                      $('#pagelist').append("<li  onclick='reducePage("+pages+","+(num-5)+",\""+name+"\",\""+category+"\")' class=\"page-item\"><a class=\"page-link\" href=\"#\">\<</a></li>")
+                    }
+                  for( i =num-9;i<num-4;i++){
+                    if(i<=total) {
+                      $('#pagelist').append("<li id=page" + i + " onclick='getMoviePage(" + i + ",\"" + name + "\",\"" + category + "\")' class=\"page-item\"><a class=\"page-link\" href=\"#\">" + i + "</a></li>")
+                    }
+                  }
+                }
+                else{
+                  re -= num%5
+                  if(re-4!=1){
+                      $('#pagelist').append("<li  onclick='reducePage("+pages+","+re+",\""+name+"\",\""+category+"\")' class=\"page-item\"><a class=\"page-link\" href=\"#\">\<</a></li>")
+                  }
+
+                  for( i =re-4;i<re+1;i++){
+                    if(i<=total) {
+                      $('#pagelist').append("<li id=page" + i + " onclick='getMoviePage(" + i + ",\"" + name + "\",\"" + category + "\")' class=\"page-item\"><a class=\"page-link\" href=\"#\">" + i + "</a></li>")
+                    }
+                  }
+                }
+            }
+            $('#pagelist').append("<li  onclick='extendPage("+pages+","+num+",\""+name+"\",\""+category+"\")' class=\"page-item\"><a class=\"page-link\" href=\"#\">\></a></li>")
       }
       
 

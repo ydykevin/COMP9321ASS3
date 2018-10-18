@@ -94,8 +94,8 @@ class Service:
             m = dict()
             m['movieId'] = row['movieId']
             m['title']   = row['title']
-            m['vote_average'] = row['vote_average']
-            m['popularity'] = row['popularity']
+            m['vote_average'] = '-' if row['vote_average'] == 0 else row['vote_average']
+            m['popularity'] = '-' if row['popularity']==0 else round(row['popularity'],1)
             m['overview'] = row['overview']
             m['runtime'] = row['runtime']
             m['genres'] = row['genres']
@@ -161,13 +161,19 @@ class Service:
             if  page > r['total_pages'] or page < 1:
                 return {"message": 'Invalid page number'}, 400
             r['current_page'] = page
-            for i in all_movies[limit*(page-1):limit*(page-1)+20]:
+            for i in all_movies[limit*(page-1):limit*(page-1)+10]:
+                rate_col = self.mdb.__getRatingCollection__().find_one({'userId': 671, 'movieId': i['movieId']})
+                if rate_col:
+                    rating = rate_col['rating']
+                else:
+                    rating = "-"
                 m_list.append({"title": i['title'],
                                "movieId": i['movieId'],
-                               "vote_average": i['vote_average'],
+                               "rating":rating,
+                               "vote_average": '-' if i['vote_average'] == 0 else i['vote_average'],
                                "genres": i['genres'],
                                "runtime": i['runtime'],
-                               "popularity": i['popularity'],
+                               "popularity": '-' if i['popularity']==0 else round(i['popularity'],1),
                                "overview": i['overview']})
             r['movies'] = m_list
             return make_response(jsonify(r),200)
@@ -175,17 +181,23 @@ class Service:
             num = 1
             count = 1
             m_list = []
-            for i in all_movies:
+            for i in all_movies[0:10]:
+                rate_col = self.mdb.__getRatingCollection__().find_one({'userId': 671, 'movieId': i['movieId']})
+                if rate_col:
+                    rating = rate_col['rating']
+                else:
+                    rating = "-"
                 m_list.append({"title": i['title'],
                                "movieId": i['movieId'],
-                               "vote_average": i['vote_average'],
+                               "rating":rating,
+                               "vote_average": '-' if i['vote_average'] == 0 else i['vote_average'],
                                "genres": i['genres'],
                                "runtime": i['runtime'],
-                               "popularity": i['popularity'],
+                               "popularity": '-' if i['popularity']==0 else round(i['popularity'],1),
                                "overview": i['overview']})
                 r['page_'+str(num)] = m_list
                 count += 1
-                if count % 21 == 0:
+                if count % 11 == 0:
                     count = 1;
                     m_list=[]
                     num += 1
@@ -194,12 +206,18 @@ class Service:
     def get_Movie(self, id):
         movie = self.mdb.__getAllMovieCollection__().find_one({'movieId': id})
         if movie:
+            rate_col = self.mdb.__getRatingCollection__().find_one({'userId': 671, 'movieId': movie['movieId']})
+            if rate_col:
+                rating = rate_col['rating']
+            else:
+                rating = "-"
             return make_response(jsonify({"title": movie['title'],
                     "id": movie['movieId'],
-                    "vote_average": movie['vote_average'],
+                    "rating":rating,
+                    "vote_average": '-' if movie['vote_average'] == 0 else movie['vote_average'],
                     "genres":movie['genres'],
                     "runtime": movie['runtime'],
-                    "popularity": movie['popularity'],
+                    "popularity": '-' if movie['popularity']==0 else round(movie['popularity'],1),
                     "overview": movie['overview']}), 200)
         return {"message": "Movie id = {} does not exist from the database!".format(id)}, 404
 
@@ -294,10 +312,6 @@ class MoviePopular(Resource):
         name     = parser2.parse_args()['w']
         return jsonify(movies=service.get_search(category, name, 'popularity')), 200
 
-    @cors.crossdomain(origin='*', headers=['content-type'])
-    def options(self):
-        return {}, 200
-
 
 # 4
 @api.route('/movies/highrating')
@@ -308,10 +322,6 @@ class MovieHighRating(Resource):
         category = parser2.parse_args()['category']
         name = parser2.parse_args()['w']
         return jsonify(movies=service.get_search(category, name, 'vote_average')), 200
-
-    @cors.crossdomain(origin='*', headers=['content-type'])
-    def options(self):
-        return {}, 200
 
 
 # ************************************************ PUBLIC ************************************************
