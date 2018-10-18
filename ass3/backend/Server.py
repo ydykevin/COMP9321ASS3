@@ -115,9 +115,9 @@ class Service:
 
     def save_rating(self, movieid, rate):
         if not self.get_movie_by_id(movieid):
-            return {"message": 'The movieid is wrong or this collection is not in the database'}, 400
+            return jsonify(message='The movieid is wrong or this collection is not in the database'), 400
         elif not (0 < float(rate) <= 5):
-            return {"message": 'The rate is out of range (0,5]'}, 400
+            return jsonify(message = 'The rate is out of range (0,5]'), 400
 
         movieName = self.mdb.find_one_movie_collection({'movieId':movieid})
         title = movieName['title']
@@ -128,12 +128,12 @@ class Service:
             self.mdb.delete_one_rating_collection({'movieId': movieid, 'userId': self.admin_user_id})
 
         self.mdb.insert_one_rating_collection(mydict)
-        return {
-        "userId": self.admin_user_id,
-            "movieId": movieid,
-            "rating": rate,
-            "name": title
-        },200
+        return jsonify(
+            userId = self.admin_user_id,
+            movieId = movieid,
+            rating = rate,
+            name = title
+        ),200
 
     def get_rate_history(self):
         history = []
@@ -358,6 +358,7 @@ class UserRating(Resource):
     # 2
     @requires_auth
     @api.doc(params={'movieId': 'movie id', 'rate': 'rating'})
+    @cors.crossdomain(origin='*', headers=['content-type'])
     def put(self):
         parser = reqparse.RequestParser()
         parser.add_argument('rate', type=str)
