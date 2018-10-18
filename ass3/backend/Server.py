@@ -118,8 +118,12 @@ class Service:
             return {"message": 'The movieid is wrong or this collection is not in the database'}, 400
         elif not (0 < float(rate) <= 5):
             return {"message": 'The rate is out of range (0,5]'}, 400
+
+        movieName = self.mdb.find_one_movie_collection({'movieId':movieid})
+        title = movieName['title']
+
         
-        mydict = {"userId": self.admin_user_id, "movieId": movieid, "rating": rate}
+        mydict = {"userId": self.admin_user_id, "movieId": movieid, "rating": rate, "name":title}
         if self.get_rating_by_mid_uid(self.admin_user_id, movieid):
             self.mdb.delete_one_rating_collection({'movieId': movieid, 'userId': self.admin_user_id})
 
@@ -127,7 +131,8 @@ class Service:
         return {
         "userId": self.admin_user_id,
             "movieId": movieid,
-            "rating": rate
+            "rating": rate,
+            "name": title
         },200
 
     def get_rate_history(self):
@@ -220,6 +225,13 @@ class Service:
                     "popularity": '-' if movie['popularity']==0 else round(movie['popularity'],1),
                     "overview": movie['overview']}), 200)
         return {"message": "Movie id = {} does not exist from the database!".format(id)}, 404
+
+    def delete_rating(self,user_rating):
+        if self.mdb.find_one_rating_collection({"userId": self.admin_user_id, "movieId": user_rating}):
+            self.mdb.delete_one_rating_collection({"userId": self.admin_user_id, "movieId": user_rating})
+            return True
+        else:
+            return False
 
 # *******************Service class
 
@@ -370,8 +382,22 @@ class UserRating(Resource):
 
 
     #4
+    @requires_auth
+    @api.doc(params={'movieId': 'movie_id'})
+    @cors.crossdomain(origin='*', headers=['content-type'])
     def delete(self):
-        pass
+        parser = reqparse.RequestParser()
+        parser.add_argument('movieId', type=str)
+        args = parser.parse_args()
+        try:
+            movieid = int(args.get('movieId'))
+        except:
+            return {'message': 'arguements are invalid.'}, 400
+        if service.delete_rating(movieid):
+            return jsonify(message = "movie is removed from the database!"), 200
+        else:
+            return jsonify(message = "incorrect movieId!"), 400
+
 
     @cors.crossdomain(origin='*', headers=['content-type','token'])
     def options(self):
