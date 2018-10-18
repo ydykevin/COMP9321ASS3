@@ -90,7 +90,7 @@
 
         <main id='public' style="display: none" role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">TOP</h1>              
+            <h1 class="h2">POPULAR</h1>
           </div>
           <canvas class="my-4 w-100" id="topChart" width="900" height="380"></canvas>
           
@@ -115,7 +115,6 @@
                   <th>Movie Name</th>
                   <th>Popularity</th>
                   <th>Rating</th>
-                  <th>Category</th>
                   <th>Runtime</th>
                 </tr>
               </thead>
@@ -334,7 +333,105 @@
           $("#search").css('display','none');
         };
 
-        $("#pubbnt").click(function(){hiddenAll();$("#public").css('display','block');});
+        $("#pubbnt").click(function(){
+            hiddenAll();
+            $("#public").css('display','block');
+            $.ajax({
+                url: prefix_url+"/movies/popular",
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    var movieList = [];
+                    var popularityList = [];
+                    for (var i = 0; i < data.movies.length; i++) {
+                      var m = data.movies[i];
+                      movieList.push(String(m.title));
+                      if (String(m.popularity) == '-') {
+                        popularityList.push(0);
+                      }else {
+                        popularityList.push(m.popularity);
+                      }
+                    }
+                    var popChart = new Chart(document.getElementById("topChart"), {
+                          type: 'horizontalBar',
+                          data: {
+                            labels: movieList,
+                            datasets: [{
+                              data: popularityList,
+                              lineTension: 0,
+                              // backgroundColor: 'transparent',
+                              // borderColor: '#007bff',
+                              borderWidth: 3,
+                              // pointBackgroundColor: '#007bff'
+                            }]
+                          },
+                          options: {
+                            scales: {
+                              yAxes: [{
+                                ticks: {
+                                  beginAtZero: true
+                                }
+                              }]
+                            },
+                            legend: {
+                              display: false,
+                            }
+
+                          }
+                        });
+                }
+            });
+
+
+            $.ajax({
+                url: prefix_url+"/movies/highrating",
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    var movieList = [];
+                    var ratingList = [];
+                    for (var i = 0; i < data.movies.length; i++) {
+                      var m = data.movies[i];
+                      movieList.push(String(m.title));
+                      if(String(m.vote_average) == '-') {
+                          console.log('-');
+                        ratingList.push(0);
+                      }else {
+                        ratingList.push(m.vote_average);
+                      }
+                    }
+                    var rateChart = new Chart(document.getElementById("hrChart"), {
+                          type: 'horizontalBar',
+                          data: {
+                            labels: movieList,
+                            datasets: [{
+                              data: ratingList,
+                              lineTension: 0,
+                              // backgroundColor: 'transparent',
+                              // borderColor: '#007bff',
+                              borderWidth: 3,
+                              // pointBackgroundColor: '#007bff'
+                            }]
+                          },
+                          options: {
+                            scales: {
+                              yAxes: [{
+                                ticks: {
+                                  beginAtZero: true
+                                }
+                              }]
+                            },
+                            legend: {
+                              display: false,
+                            }
+
+                          }
+                        });
+                }
+            });
+
+
+        });
         $("#pribnt").click(function(){
           if(-1 == token) {
             alert('please login')
@@ -588,59 +685,59 @@
       }
       
 
-      var topChart = new Chart(document.getElementById("topChart"), {
-        type: 'horizontalBar',
-        data: {
-          labels: ["Movie1", "Movie2", "Movie3", "Movie4", "Movie5", "Movie6", "Movie7", "Movie8", "Movie9", "Movie10"],
-          datasets: [{
-            data: [15339, 21345, 18483, 24003, 23489, 24092, 12034,17024,1234,1434],
-            lineTension: 0,
-            // backgroundColor: 'transparent',
-            // borderColor: '#007bff',
-            borderWidth: 3,
-            // pointBackgroundColor: '#007bff'
-          }]
-        },
-        options: {
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true
-              }
-            }]
-          },
-          legend: {
-            display: false,
-          }
-        }
-      });
+//      var topChart = new Chart(document.getElementById("topChart"), {
+//        type: 'horizontalBar',
+//        data: {
+//          labels: ["Movie1", "Movie2", "Movie3", "Movie4", "Movie5", "Movie6", "Movie7", "Movie8", "Movie9", "Movie10"],
+//          datasets: [{
+//            data: [15339, 21345, 18483, 24003, 23489, 24092, 12034,17024,1234,1434],
+//            lineTension: 0,
+//            // backgroundColor: 'transparent',
+//            // borderColor: '#007bff',
+//            borderWidth: 3,
+//            // pointBackgroundColor: '#007bff'
+//          }]
+//        },
+//        options: {
+//          scales: {
+//            yAxes: [{
+//              ticks: {
+//                beginAtZero: true
+//              }
+//            }]
+//          },
+//          legend: {
+//            display: false,
+//          }
+//        }
+//      });
 
-      var hrChart = new Chart(document.getElementById("hrChart"), {
-        type: 'horizontalBar',
-        data: {
-          labels: ["Movie1", "Movie2", "Movie3", "Movie4", "Movie5", "Movie6", "Movie7", "Movie8", "Movie9", "Movie10"],
-          datasets: [{
-            data: [15339, 21345, 18483, 24003, 23489, 24092, 12034,17024,1234,1434],
-            lineTension: 0,
-            // backgroundColor: 'transparent',
-            // borderColor: '#007bff',
-            borderWidth: 3,
-            // pointBackgroundColor: '#007bff'
-          }]
-        },
-        options: {
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true
-              }
-            }]
-          },
-          legend: {
-            display: false,
-          }
-        }
-      });
+//      var hrChart = new Chart(document.getElementById("hrChart"), {
+//        type: 'horizontalBar',
+//        data: {
+//          labels: ["Movie1", "Movie2", "Movie3", "Movie4", "Movie5", "Movie6", "Movie7", "Movie8", "Movie9", "Movie10"],
+//          datasets: [{
+//            data: [15339, 21345, 18483, 24003, 23489, 24092, 12034,17024,1234,1434],
+//            lineTension: 0,
+//            // backgroundColor: 'transparent',
+//            // borderColor: '#007bff',
+//            borderWidth: 3,
+//            // pointBackgroundColor: '#007bff'
+//          }]
+//        },
+//        options: {
+//          scales: {
+//            yAxes: [{
+//              ticks: {
+//                beginAtZero: true
+//              }
+//            }]
+//          },
+//          legend: {
+//            display: false,
+//          }
+//        }
+//      });
 
       
     </script>
