@@ -23,7 +23,7 @@ class MongoDB:
         return self.getCollection('genres')
 
     def __getAllMovieCollection__(self):
-        return self.getCollection('allMovies')
+        return self.__getMovieCollection__()
 
     def insert_one_movie_collection(self, data):
         return self.__getMovieCollection__().insert_one(data)
