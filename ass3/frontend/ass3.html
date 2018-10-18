@@ -282,6 +282,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <script>
       var token = -1;
+
+      function deleteRating(movieId){
+            $.ajax({
+                url: "http://127.0.0.1:5000"+"/users/rating?movieId="+String(movieId),
+                method: 'DELETE',
+                dataType: 'json',
+                success: function(data){
+                  // alert('delete');
+                  $("#pribnt").click();
+                },
+                headers: { 'token': token },
+                error:function(XMLHttpRequest, textStatus, errorThrown){
+                  alert('invalid token, please login again');
+                }
+            });
+
+      }
+
       $(document).ready(function() {
         var prefix_url = "http://127.0.0.1:5000";
 
@@ -462,6 +480,7 @@
                 }
             });
 
+            $('#rathisTable').html('');
             $.ajax({
                 url: prefix_url+"/users/rating",
                 method: 'GET',
@@ -472,6 +491,8 @@
                     var tr = $("<tr></tr>")
                     tr.append("<td>"+String(m.name)+"</td>");
                     tr.append("<td>"+String(m.rating)+"</td>");
+                    var b = '<button type="button" class="btn btn-outline-primary btn-sm" onclick="deleteRating('+String(m.movieId)+')">delete</button>';
+                    tr.append("<td>"+b+"</td>");
                     $('#rathisTable').append(tr)
                   }
                 },

@@ -226,6 +226,13 @@ class Service:
                     "overview": movie['overview']}), 200)
         return {"message": "Movie id = {} does not exist from the database!".format(id)}, 404
 
+    def delete_rating(self,user_rating):
+        if self.mdb.find_one_rating_collection({"userId": self.admin_user_id, "movieId": user_rating}):
+            self.mdb.delete_one_rating_collection({"userId": self.admin_user_id, "movieId": user_rating})
+            return True
+        else:
+            return False
+
 # *******************Service class
 
 # -------------------AuthenticationToken class
@@ -375,8 +382,22 @@ class UserRating(Resource):
 
 
     #4
+    @requires_auth
+    @api.doc(params={'movieId': 'movie_id'})
+    @cors.crossdomain(origin='*', headers=['content-type'])
     def delete(self):
-        pass
+        parser = reqparse.RequestParser()
+        parser.add_argument('movieId', type=str)
+        args = parser.parse_args()
+        try:
+            movieid = int(args.get('movieId'))
+        except:
+            return {'message': 'arguements are invalid.'}, 400
+        if service.delete_rating(movieid):
+            return jsonify(message = "movie is removed from the database!"), 200
+        else:
+            return jsonify(message = "incorrect movieId!"), 400
+
 
     @cors.crossdomain(origin='*', headers=['content-type','token'])
     def options(self):

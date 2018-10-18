@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b50e0e7d-8ad7-4d24-b3c9-8f4c49b03b51" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ass3/backend/config.ini" afterPath="$PROJECT_DIR$/ass3/backend/config.ini" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ass3/backend/Server.py" afterPath="$PROJECT_DIR$/ass3/backend/Server.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ass3/frontend/ass3.html" afterPath="$PROJECT_DIR$/ass3/frontend/ass3.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -23,11 +24,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Server.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Server.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ass3/backend/Server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="93" column="22" lean-forward="true" selection-start-line="93" selection-start-column="22" selection-end-line="93" selection-end-column="22" />
+            <state relative-caret-position="1395">
+              <caret line="93" column="22" lean-forward="false" selection-start-line="93" selection-start-column="22" selection-end-line="93" selection-end-column="22" />
               <folding>
                 <element signature="e#0#55#0" expanded="true" />
               </folding>
@@ -35,11 +36,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ass3.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ass3.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ass3/frontend/ass3.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="137">
-              <caret line="399" column="41" lean-forward="false" selection-start-line="399" selection-start-column="41" selection-end-line="399" selection-end-column="41" />
+            <state relative-caret-position="-4888">
+              <caret line="424" column="40" lean-forward="false" selection-start-line="424" selection-start-column="40" selection-end-line="424" selection-end-column="40" />
               <folding>
                 <element signature="n#style#0;n#main#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#nav#0;n#div#1;n#main#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -667,24 +668,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ass3/backend/Server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="93" column="22" lean-forward="true" selection-start-line="93" selection-start-column="22" selection-end-line="93" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#55#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ass3/frontend/ass3.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="399" column="41" lean-forward="false" selection-start-line="399" selection-start-column="41" selection-end-line="399" selection-end-column="41" />
+        <state relative-caret-position="-4888">
+          <caret line="424" column="40" lean-forward="false" selection-start-line="424" selection-start-column="40" selection-end-line="424" selection-end-column="40" />
           <folding>
             <element signature="n#style#0;n#main#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#nav#0;n#div#1;n#main#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="e#11776#11783#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ass3/backend/Server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1395">
+          <caret line="93" column="22" lean-forward="false" selection-start-line="93" selection-start-column="22" selection-end-line="93" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#55#0" expanded="true" />
           </folding>
         </state>
       </provider>
