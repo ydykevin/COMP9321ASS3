@@ -14,57 +14,40 @@ inser rating.csv data to database
 '''
 def insert_rating():
     global mdb
-
-
-
-    df = pd.read_csv('ratings_small.csv')df_movie = pd.read_csv('movies_metadata.csv', low_memory=False)
-
-    df_movie = df_movie[['id', 'title', 'vote_average', 'popularity', 'overview', 'runtime']].set_index('id').loc[get_movieIds()]
-
-    df_movie['title'] = df_movie['title'].fillna('').astype(str)
-    df_movie['overview'] = df_movie['overview'].fillna('').astype(str)
-
-    df_movie['vote_average'] = df_movie['vote_average'].fillna(0.0).astype(float)
-    df_movie['popularity'] = df_movie['popularity'].fillna(0.0).astype(float)
-    df_movie['runtime'] = df_movie['runtime'].fillna(0.0).astype(float)
-
-    df = df.pivot(index='userId', columns='movieId', values='rating').fillna(0.0)
-    # print(df)
-
+    df = pd.read_csv('ratings_small.csv')
+    df['userId']=df['userId'].astype(int)
+    df['movieId']=df['movieId'].astype(int)
+    df['rating']=df['rating'].fillna(0.0).astype(float)
     l = list()
-    total = len(df.values)
-    print('total row:', total)
-    for i, r in enumerate(df.values):
-        if i > 0 and i % 100 == 0:
-            print((i + 1), 'rows loaded')
-            print('\tinsert to mlab')
+
+    df_movie = pd.read_csv('movies_metadata.csv', low_memory=False)
+    df_movie = df_movie[['id', 'title']].set_index('id').loc[get_movieIds()]
+    df_movie.index = df_movie.index.astype(int)
+    df_movie['title'] = df_movie['title'].fillna('').astype(str)
+    r4912 = df_movie.loc[4912].head(1)
+    df_movie = df_movie.drop(4912)
+    df_movie = df_movie.append(r4912)
+    df_movie = df_movie.reset_index()
+    df_movie['id']=df_movie['id'].astype(int)
+    df = df.merge(df_movie, left_on='movieId', right_on='id', how='inner')
+    print(len(df))
+    for i in range(len(df)):
+        if (i+1) % 1000 == 0:
             mdb.insert_many_rating_collection(l)
             l.clear()
-            print('\tfinish insert')
-        userId = i + 1
-        for j, rating in enumerate(r):
-            dt = dict()
-            movieId = j + 1
-            if rating == 0:
-                continue
-            if str(movieId) == '4912':
-                nn = df_movie.loc[str(movieId)].title.values[0]
-            else:
-                nn = df_movie.loc[str(movieId)].title
-            dt['mname'] = nn
-            if nn == '':
-                dt['mname'] = 'movie' + movieId
-            dt['userId'] = userId
-            dt['movieId'] = movieId
-            dt['rating'] = rating
-            l.append(dt)
+            print('finish', i)
+        rdict = dict()
+        r = df.loc[i]
+        rdict['userId'] = int(r.userId)
+        rdict['movieId'] = int(r.movieId)
+        rdict['rating'] = int(r.rating)
 
-    print(total, 'rows loaded')
-    print('\tinsert to mlab')
+        rdict['name'] = r.title
+        if r.title == '':
+            rdict['name'] = 'movie' + str(int(r.movieId))
+        l.append(rdict)
     mdb.insert_many_rating_collection(l)
-    l.clear()
-    print('\tfinish insert')
-    print('finish')
+    print("finish insert rating")
 '''
     read rating radata from database
     and return a list
