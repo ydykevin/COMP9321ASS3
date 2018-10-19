@@ -200,7 +200,6 @@ class Service:
                     rating = rate_col['rating']
                 else:
                     rating = "-"
-                print(i)
                 m_list.append({"title": i['title'],
                                "movieId": i['movieId'],
                                "rating":rating,

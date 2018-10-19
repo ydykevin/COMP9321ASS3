@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b50e0e7d-8ad7-4d24-b3c9-8f4c49b03b51" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/COMP9321ASS3.iml" afterPath="$PROJECT_DIR$/.idea/COMP9321ASS3.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ass3/backend/PreWork.py" afterPath="$PROJECT_DIR$/ass3/backend/PreWork.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ass3/backend/Server.py" afterPath="$PROJECT_DIR$/ass3/backend/Server.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ass3/frontend/ass3.html" afterPath="$PROJECT_DIR$/ass3/frontend/ass3.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,7 +14,7 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/COMP9321ASS3$PreWork.coverage" NAME="PreWork Coverage Results" MODIFIED="1539902010211" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ass3/backend" />
     <SUITE FILE_PATH="coverage/COMP9321ASS3$serving.coverage" NAME="serving Coverage Results" MODIFIED="1539903428593" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="/Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/werkzeug" />
-    <SUITE FILE_PATH="coverage/COMP9321ASS3$Server.coverage" NAME="Server Coverage Results" MODIFIED="1539904050209" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ass3/backend" />
+    <SUITE FILE_PATH="coverage/COMP9321ASS3$Server.coverage" NAME="Server Coverage Results" MODIFIED="1539918710112" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ass3/backend" />
     <SUITE FILE_PATH="coverage/COMP9321ASS3$PreWork__1_.coverage" NAME="PreWork Coverage Results" MODIFIED="1539745056735" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ass3/backend" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -31,12 +26,12 @@
       <file leaf-file-name="Server.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ass3/backend/Server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="235" column="117" lean-forward="false" selection-start-line="235" selection-start-column="117" selection-end-line="235" selection-end-column="117" />
+            <state relative-caret-position="2940">
+              <caret line="196" column="37" lean-forward="false" selection-start-line="196" selection-start-column="37" selection-end-line="196" selection-end-column="37" />
               <folding>
                 <element signature="e#0#55#0" expanded="true" />
-                <marker date="1539904266002" expanded="true" signature="5052:5118" ph="..." />
-                <marker date="1539904266002" expanded="true" signature="16383:16498" ph="..." />
+                <marker date="1539919017526" expanded="true" signature="5052:5118" ph="..." />
+                <marker date="1539919017526" expanded="true" signature="16358:16473" ph="..." />
               </folding>
             </state>
           </provider>
@@ -109,7 +104,6 @@
       <find>dict</find>
       <find>recmTable</find>
       <find>sort</find>
-      <find>print</find>
       <find>serialize</find>
       <find>Object of type Response is not JSON serializable</find>
       <find>data = serializers.serialize(</find>
@@ -131,6 +125,7 @@
       <find>prefix</find>
       <find>head</find>
       <find>chart</find>
+      <find>print</find>
     </findStrings>
     <replaceStrings>
       <replace>&quot;</replace>
@@ -161,9 +156,9 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="8" />
-    <option name="y" value="57" />
+    <option name="y" value="23" />
     <option name="width" value="1280" />
-    <option name="height" value="681" />
+    <option name="height" value="714" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -543,7 +538,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="8" y="57" width="1280" height="681" extended-state="0" />
+    <frame x="8" y="23" width="1280" height="714" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22213247" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -552,7 +547,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32767403" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31028938" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32901135" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
@@ -574,13 +569,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ass3/backend/Server.py</url>
-          <line>83</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
@@ -595,8 +583,8 @@
           <caret line="224" column="46" lean-forward="false" selection-start-line="224" selection-start-column="46" selection-end-line="224" selection-end-column="46" />
           <folding>
             <element signature="e#0#55#0" expanded="true" />
-            <marker date="1539904266002" expanded="true" signature="5052:5118" ph="..." />
-            <marker date="1539904266002" expanded="true" signature="16383:16498" ph="..." />
+            <marker date="1539919017526" expanded="true" signature="5052:5118" ph="..." />
+            <marker date="1539919017526" expanded="true" signature="16358:16473" ph="..." />
           </folding>
         </state>
       </provider>
@@ -681,8 +669,8 @@
           <caret line="75" column="153" lean-forward="false" selection-start-line="75" selection-start-column="153" selection-end-line="75" selection-end-column="153" />
           <folding>
             <element signature="e#0#55#0" expanded="true" />
-            <marker date="1539904266002" expanded="true" signature="5052:5118" ph="..." />
-            <marker date="1539904266002" expanded="true" signature="16383:16498" ph="..." />
+            <marker date="1539919017526" expanded="true" signature="5052:5118" ph="..." />
+            <marker date="1539919017526" expanded="true" signature="16358:16473" ph="..." />
           </folding>
         </state>
       </provider>
@@ -755,12 +743,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ass3/backend/Server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="235" column="117" lean-forward="false" selection-start-line="235" selection-start-column="117" selection-end-line="235" selection-end-column="117" />
+        <state relative-caret-position="2940">
+          <caret line="196" column="37" lean-forward="false" selection-start-line="196" selection-start-column="37" selection-end-line="196" selection-end-column="37" />
           <folding>
             <element signature="e#0#55#0" expanded="true" />
-            <marker date="1539904266002" expanded="true" signature="5052:5118" ph="..." />
-            <marker date="1539904266002" expanded="true" signature="16383:16498" ph="..." />
+            <marker date="1539919017526" expanded="true" signature="5052:5118" ph="..." />
+            <marker date="1539919017526" expanded="true" signature="16358:16473" ph="..." />
           </folding>
         </state>
       </provider>
