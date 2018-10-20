@@ -384,7 +384,7 @@ class UserRating(Resource):
             movieid = int(args.get('movieId'))
             rate = float(args.get('rate'))
         except:
-            return {'message': 'arguements are invalid.'}, 400
+            return jsonify(message= 'arguements are invalid.'), 400
 
         return service.save_rating(movieid, rate)
 
@@ -409,7 +409,7 @@ class UserRating(Resource):
         try:
             movieid = int(args.get('movieId'))
         except:
-            return {'message': 'arguements are invalid.'}, 400
+            return jsonify(message= 'arguements are invalid.'), 400
         if service.delete_rating(movieid):
             return jsonify(message = "movie is removed from the database!"), 200
         else:

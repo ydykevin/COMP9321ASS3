@@ -271,8 +271,13 @@
       }
 
       function ratingMovie(id) {
+          var r = $('#rating_'+String(id)).val();
+          if(r>5 || r<=0) {
+            alert('invalid rate');
+            return ;
+          }
           $.ajax({
-                url: "http://127.0.0.1:5000/users/rating?movieId="+String(id)+"&rate="+$('#rating_'+String(id)).val(),
+                url: "http://127.0.0.1:5000/users/rating?movieId="+String(id)+"&rate="+r,
                 method: 'PUT',
                 dataType: 'json',
                 success: function(data){
@@ -280,7 +285,7 @@
                 },
                 headers: { 'token': token },
                 error:function(XMLHttpRequest, textStatus, errorThrown){
-                  alert('invalid input');
+                  alert('invalid token, please login again');
                 }
             });
       };
