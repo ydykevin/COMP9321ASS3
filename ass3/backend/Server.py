@@ -170,7 +170,7 @@ class Service:
         r['total'] = total
         r['total_pages'] = math.ceil(float(total) / limit)
         m_list= []
-        if page:
+        if page is not None:
             if  page > r['total_pages'] or page < 1:
                 return make_response(jsonify({"message": 'Invalid page number'}), 400)
             r['current_page'] = page
