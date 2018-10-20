@@ -504,6 +504,10 @@
                   method: 'GET',
                   data: data,
                   dataType: 'json',
+                  error:function(XMLHttpRequest, textStatus, errorThrown){
+                    $('#page').css('display','none');
+                    $("#movieTb tbody").html("");
+                  },
                   success: function (result) {
                       $("#movieTb tbody").html("");
                       pages = result['total_pages']
@@ -551,6 +555,10 @@
                   method: 'GET',
                   data: data,
                   dataType: 'json',
+                   error:function(XMLHttpRequest, textStatus, errorThrown){
+                      $('#page').css('display','none');
+                    $("#movieTb tbody").html("");
+                  },
                   success: function (data) {
                       $("#movieTb tbody").html("");
                       for (var i = 0; i < data.movies.length; i++) {
